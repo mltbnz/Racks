@@ -23,6 +23,7 @@
 		E0CE5F14175F69230078B4A5 /* Helveticons_148.png in Resources */ = {isa = PBXBuildFile; fileRef = E0CE5F13175F69230078B4A5 /* Helveticons_148.png */; };
 		E0CE5F16175F69920078B4A5 /* games.png in Resources */ = {isa = PBXBuildFile; fileRef = E0CE5F15175F69920078B4A5 /* games.png */; };
 		E0CE5F18175F72A10078B4A5 /* book.png in Resources */ = {isa = PBXBuildFile; fileRef = E0CE5F17175F72A10078B4A5 /* book.png */; };
+		E0CE5F1D175F95110078B4A5 /* MusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0CE5F1C175F95110078B4A5 /* MusicViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,8 @@
 		E0CE5F13175F69230078B4A5 /* Helveticons_148.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Helveticons_148.png; sourceTree = "<group>"; };
 		E0CE5F15175F69920078B4A5 /* games.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = games.png; sourceTree = "<group>"; };
 		E0CE5F17175F72A10078B4A5 /* book.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = book.png; sourceTree = "<group>"; };
+		E0CE5F1B175F95110078B4A5 /* MusicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicViewController.h; sourceTree = "<group>"; };
+		E0CE5F1C175F95110078B4A5 /* MusicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,11 +100,13 @@
 		E0CE5EEF175F5C570078B4A5 /* Racks */ = {
 			isa = PBXGroup;
 			children = (
+				E0CE5F01175F5C570078B4A5 /* MainStoryboard.storyboard */,
 				E0CE5EF8175F5C570078B4A5 /* AppDelegate.h */,
 				E0CE5EF9175F5C570078B4A5 /* AppDelegate.m */,
 				E0CE5F10175F67BD0078B4A5 /* Assets */,
 				E0CE5F19175F72F60078B4A5 /* CoreData */,
-				E0CE5F01175F5C570078B4A5 /* MainStoryboard.storyboard */,
+				E0CE5F1B175F95110078B4A5 /* MusicViewController.h */,
+				E0CE5F1C175F95110078B4A5 /* MusicViewController.m */,
 				E0CE5F04175F5C570078B4A5 /* ViewController.h */,
 				E0CE5F05175F5C570078B4A5 /* ViewController.m */,
 				E0CE5EF0175F5C570078B4A5 /* Supporting Files */,
@@ -212,6 +217,7 @@
 				E0CE5EF6175F5C570078B4A5 /* main.m in Sources */,
 				E0CE5EFA175F5C570078B4A5 /* AppDelegate.m in Sources */,
 				E0CE5F06175F5C570078B4A5 /* ViewController.m in Sources */,
+				E0CE5F1D175F95110078B4A5 /* MusicViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
