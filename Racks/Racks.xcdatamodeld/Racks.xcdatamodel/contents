@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="11G63" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Artist" representedClassName="Artist" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="wikiLink" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="released" optional="YES" toMany="YES" minCount="1" deletionRule="Nullify" destinationEntity="Release" inverseName="by" inverseEntity="Release" syncable="YES"/>
+    </entity>
+    <entity name="Release" representedClassName="Release" syncable="YES">
+        <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="picture" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="releaseDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="by" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Artist" inverseName="released" inverseEntity="Artist" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Release" positionX="403" positionY="60" width="128" height="120"/>
+        <element name="Artist" positionX="97" positionY="105" width="128" height="90"/>
+    </elements>
+</model>

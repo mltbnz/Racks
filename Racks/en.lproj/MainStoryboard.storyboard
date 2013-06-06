@@ -31,7 +31,6 @@
         <!--View Controller - Main-->
         <scene sceneID="5">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
                 <viewController title="Main" id="2" customClass="ViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
@@ -53,21 +52,15 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="games.png" translatesAutoresizingMaskIntoConstraints="NO" id="5gj-dg-xB9">
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="68" id="zxJ-2g-mXc"/>
-                                </constraints>
-                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="games.png" translatesAutoresizingMaskIntoConstraints="NO" id="5gj-dg-xB9"/>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="book.png" translatesAutoresizingMaskIntoConstraints="NO" id="awp-wa-0Zu">
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="68" id="MCP-C2-0Pm"/>
                                     <constraint firstAttribute="width" constant="105" id="fu6-i9-mkt"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eFx-2w-aBr">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="69" id="WfM-bN-Z6G"/>
-                                    <constraint firstAttribute="width" constant="75" id="sAd-Pn-TJ4"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal">
@@ -81,28 +74,71 @@
                                     <segue destination="lqe-IB-iXn" kind="push" id="bFQ-VC-DoC"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ltq-cw-zYD">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="69" id="1wg-um-A74"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="J81-4X-QrG" kind="push" id="hbB-Je-J1h"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rRB-Og-HRm">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="74" id="jPZ-FM-7UL"/>
+                                    <constraint firstAttribute="height" constant="69" id="xVq-lW-l3J"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="35a-aP-8XV" kind="push" id="Wym-18-MZH"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="o2c-4o-JAh" firstAttribute="centerX" secondItem="5gj-dg-xB9" secondAttribute="centerX" type="default" id="0k8-nd-VMA"/>
                             <constraint firstAttribute="bottom" secondItem="avG-Ty-MGk" secondAttribute="bottom" constant="35" id="1uq-eW-1ZT"/>
+                            <constraint firstItem="rRB-Og-HRm" firstAttribute="top" secondItem="awp-wa-0Zu" secondAttribute="top" type="default" id="2BJ-Zi-Bg2"/>
                             <constraint firstItem="5gj-dg-xB9" firstAttribute="top" secondItem="3" secondAttribute="top" constant="151" id="3li-rU-7gQ"/>
-                            <constraint firstItem="awp-wa-0Zu" firstAttribute="centerX" secondItem="o2c-4o-JAh" secondAttribute="centerX" type="default" id="63U-of-zaC"/>
                             <constraint firstItem="Qi5-yq-2Md" firstAttribute="leading" secondItem="5gj-dg-xB9" secondAttribute="leading" type="default" id="9lA-Ln-7vh"/>
                             <constraint firstItem="GWj-Z4-gIe" firstAttribute="top" secondItem="eFx-2w-aBr" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="D9F-Pu-y68"/>
                             <constraint firstItem="Qi5-yq-2Md" firstAttribute="trailing" secondItem="5gj-dg-xB9" secondAttribute="trailing" type="default" id="EWh-ix-iIC"/>
                             <constraint firstItem="GWj-Z4-gIe" firstAttribute="centerX" secondItem="Qi5-yq-2Md" secondAttribute="centerX" type="default" id="FTG-Ex-gqB"/>
+                            <constraint firstItem="Qi5-yq-2Md" firstAttribute="centerX" secondItem="eFx-2w-aBr" secondAttribute="centerX" type="default" id="GPF-Ys-uz4"/>
+                            <constraint firstItem="rRB-Og-HRm" firstAttribute="leading" secondItem="Ltq-cw-zYD" secondAttribute="leading" type="default" id="Gbz-73-vfZ"/>
+                            <constraint firstItem="rRB-Og-HRm" firstAttribute="centerX" secondItem="awp-wa-0Zu" secondAttribute="centerX" type="default" id="IGp-zo-1Q4"/>
                             <constraint firstItem="eFx-2w-aBr" firstAttribute="top" secondItem="3" secondAttribute="top" constant="20" symbolic="YES" type="default" id="NQT-c0-Usg"/>
-                            <constraint firstItem="avG-Ty-MGk" firstAttribute="centerX" secondItem="5gj-dg-xB9" secondAttribute="centerX" type="default" id="RcR-Ki-Se6"/>
+                            <constraint firstItem="Ltq-cw-zYD" firstAttribute="top" secondItem="5gj-dg-xB9" secondAttribute="top" type="default" id="NaT-kW-9kC"/>
+                            <constraint firstItem="avG-Ty-MGk" firstAttribute="top" secondItem="rRB-Og-HRm" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="QgB-Q3-ngV"/>
                             <constraint firstItem="GWj-Z4-gIe" firstAttribute="top" secondItem="Qi5-yq-2Md" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="VE1-um-CeF"/>
-                            <constraint firstItem="eFx-2w-aBr" firstAttribute="centerX" secondItem="Qi5-yq-2Md" secondAttribute="centerX" type="default" id="bLu-xs-blb"/>
-                            <constraint firstItem="Qi5-yq-2Md" firstAttribute="centerX" secondItem="3" secondAttribute="centerX" type="default" id="cGy-54-kI3"/>
+                            <constraint firstItem="rRB-Og-HRm" firstAttribute="centerX" secondItem="avG-Ty-MGk" secondAttribute="centerX" type="default" id="d9O-NA-EAp"/>
                             <constraint firstItem="o2c-4o-JAh" firstAttribute="top" secondItem="5gj-dg-xB9" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="gar-ZO-u8M"/>
+                            <constraint firstItem="rRB-Og-HRm" firstAttribute="centerX" secondItem="o2c-4o-JAh" secondAttribute="centerX" type="default" id="gkq-en-Dzr"/>
                             <constraint firstItem="avG-Ty-MGk" firstAttribute="top" secondItem="awp-wa-0Zu" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="hd5-u5-DCc"/>
+                            <constraint firstItem="eFx-2w-aBr" firstAttribute="leading" secondItem="Ltq-cw-zYD" secondAttribute="leading" type="default" id="jpM-B4-SZr"/>
                             <constraint firstItem="Qi5-yq-2Md" firstAttribute="top" secondItem="3" secondAttribute="top" constant="20" symbolic="YES" type="default" id="kEY-K8-FmB"/>
-                            <constraint firstItem="eFx-2w-aBr" firstAttribute="centerX" secondItem="o2c-4o-JAh" secondAttribute="centerX" type="default" id="pTv-7H-0pj"/>
+                            <constraint firstItem="o2c-4o-JAh" firstAttribute="top" secondItem="Ltq-cw-zYD" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="lt5-DF-2ZH"/>
+                            <constraint firstItem="awp-wa-0Zu" firstAttribute="centerX" secondItem="3" secondAttribute="centerX" type="default" id="syR-XC-aRL"/>
+                            <constraint firstItem="eFx-2w-aBr" firstAttribute="trailing" secondItem="Ltq-cw-zYD" secondAttribute="trailing" type="default" id="x2J-YP-qtK"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Racks" id="HNk-Tz-dzX"/>
+                    <navigationItem key="navigationItem" title="Racks" id="HNk-Tz-dzX">
+                        <barButtonItem key="backBarButtonItem" title="back" id="zp0-Mj-9tY"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="booksIcon" destination="awp-wa-0Zu" id="YAz-bp-lCy"/>
                         <outlet property="booksLabel" destination="avG-Ty-MGk" id="nmr-Fa-Vmi"/>
@@ -112,8 +148,9 @@
                         <outlet property="musicLabel" destination="GWj-Z4-gIe" id="Dkd-7P-7Qm"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-44" y="81"/>
+            <point key="canvasLocation" x="26" y="81"/>
         </scene>
         <!--Music View Controller - Music-->
         <scene sceneID="ctm-55-i3K">
@@ -136,6 +173,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Music" id="u5W-Ig-uzi">
+                        <barButtonItem key="backBarButtonItem" title="back" id="0hO-Qh-izj"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Ybe-9c-KCA">
                             <connections>
                                 <action selector="pushAddMusicButtonAction:" destination="lqe-IB-iXn" id="Rff-u5-bn2"/>
@@ -143,13 +181,83 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="addMusicButton" destination="Ybe-9c-KCA" id="O0X-BY-6aL"/>
+                        <outlet property="addMusicButton" destination="Ybe-9c-KCA" id="qZ5-YU-gjr"/>
                         <outlet property="musicTable" destination="yTo-lO-QHO" id="2qI-cT-mqm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0AX-Us-jJU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="424" y="81"/>
+            <point key="canvasLocation" x="566" y="-491"/>
+        </scene>
+        <!--Games View Controller - Games-->
+        <scene sceneID="KaP-hh-ZRv">
+            <objects>
+                <viewController id="J81-4X-QrG" customClass="GamesViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="GW1-Fc-Hkx">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Bjb-Vv-YAj">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Bjb-Vv-YAj" firstAttribute="top" secondItem="GW1-Fc-Hkx" secondAttribute="top" type="default" id="7d4-Ke-pos"/>
+                            <constraint firstItem="Bjb-Vv-YAj" firstAttribute="bottom" secondItem="GW1-Fc-Hkx" secondAttribute="bottom" type="default" id="Z8k-m4-Rwr"/>
+                            <constraint firstItem="Bjb-Vv-YAj" firstAttribute="trailing" secondItem="GW1-Fc-Hkx" secondAttribute="trailing" type="default" id="oUt-I8-wyp"/>
+                            <constraint firstItem="Bjb-Vv-YAj" firstAttribute="leading" secondItem="GW1-Fc-Hkx" secondAttribute="leading" type="default" id="toe-jK-YS9"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Games" id="9tc-fL-7Yc">
+                        <barButtonItem key="backBarButtonItem" title="back" id="8sl-gv-7zj"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="8wl-KM-IPe">
+                            <connections>
+                                <action selector="addGamesAction:" destination="J81-4X-QrG" id="EEZ-6k-bEY"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="addGamesButton" destination="8wl-KM-IPe" id="U7b-0y-Jec"/>
+                        <outlet property="gamesTable" destination="Bjb-Vv-YAj" id="K3C-ZB-8Bo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RBu-X2-Ufv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="566" y="81"/>
+        </scene>
+        <!--Books View Controller - Books-->
+        <scene sceneID="lfw-dd-P8n">
+            <objects>
+                <viewController title="Books" id="35a-aP-8XV" customClass="BooksViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="seL-ii-XZm">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="wJ1-sb-gDP">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="wJ1-sb-gDP" firstAttribute="bottom" secondItem="seL-ii-XZm" secondAttribute="bottom" type="default" id="8q6-Q4-WRR"/>
+                            <constraint firstItem="wJ1-sb-gDP" firstAttribute="top" secondItem="seL-ii-XZm" secondAttribute="top" type="default" id="LZn-pW-EDH"/>
+                            <constraint firstItem="wJ1-sb-gDP" firstAttribute="trailing" secondItem="seL-ii-XZm" secondAttribute="trailing" type="default" id="l0X-T0-fmr"/>
+                            <constraint firstItem="wJ1-sb-gDP" firstAttribute="leading" secondItem="seL-ii-XZm" secondAttribute="leading" type="default" id="xtO-7w-mTu"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Books" id="IOQ-ce-hlF">
+                        <barButtonItem key="backBarButtonItem" title="back" id="kaK-XE-cuj"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="saB-K1-7FE"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="addBooksButton" destination="saB-K1-7FE" id="Dxp-iA-7la"/>
+                        <outlet property="booksTable" destination="wJ1-sb-gDP" id="Cm8-cx-lnM"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ULC-Df-em8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="566" y="681"/>
         </scene>
     </scenes>
     <resources>
@@ -158,6 +266,21 @@
         <image name="games.png" width="152" height="257"/>
     </resources>
     <classes>
+        <class className="BooksViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BooksViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="addBooksButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="booksTable" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="GamesViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GamesViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="addGamesAction:"/>
+                <relationship kind="outlet" name="addGamesButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="gamesTable" candidateClass="UITableView"/>
+            </relationships>
+        </class>
         <class className="MusicViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MusicViewController.h"/>
             <relationships>
