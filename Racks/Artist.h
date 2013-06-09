@@ -19,9 +19,10 @@
 
 @interface Artist (CoreDataGeneratedAccessors)
 
-- (void)addReleasedObject:(NSManagedObject *)value;
-- (void)removeReleasedObject:(NSManagedObject *)value;
+- (void)addReleasedObject:(Release *)value;
+- (void)removeReleasedObject:(Release *)value;
 - (void)addReleased:(NSSet *)values;
 - (void)removeReleased:(NSSet *)values;
 
+ 
 @end
