@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E0069C1D176A0C0D00767239 /* RacksDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E0069C1C176A0C0D00767239 /* RacksDataManager.m */; };
+		E0069C20176A27DF00767239 /* AddMusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0069C1F176A27DF00767239 /* AddMusicViewController.m */; };
 		E082041D176100BF009E4C27 /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = E082041C176100BF009E4C27 /* Artist.m */; };
 		E0820420176100CF009E4C27 /* Release.m in Sources */ = {isa = PBXBuildFile; fileRef = E082041F176100CF009E4C27 /* Release.m */; };
 		E0CE5EEA175F5C570078B4A5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0CE5EE9175F5C570078B4A5 /* UIKit.framework */; };
@@ -32,6 +34,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E0069C1B176A0C0D00767239 /* RacksDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RacksDataManager.h; sourceTree = "<group>"; };
+		E0069C1C176A0C0D00767239 /* RacksDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RacksDataManager.m; sourceTree = "<group>"; };
+		E0069C1E176A27DF00767239 /* AddMusicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddMusicViewController.h; sourceTree = "<group>"; };
+		E0069C1F176A27DF00767239 /* AddMusicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddMusicViewController.m; sourceTree = "<group>"; };
 		E082041B176100BF009E4C27 /* Artist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Artist.h; sourceTree = "<group>"; };
 		E082041C176100BF009E4C27 /* Artist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Artist.m; sourceTree = "<group>"; };
 		E082041E176100CF009E4C27 /* Release.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Release.h; sourceTree = "<group>"; };
@@ -85,8 +91,6 @@
 		E0CE5EDD175F5C570078B4A5 = {
 			isa = PBXGroup;
 			children = (
-				E0CE5F0E175F5EA70078B4A5 /* CoreData.framework */,
-				E0CE5F0C175F5E9A0078B4A5 /* QuartzCore.framework */,
 				E0CE5EEF175F5C570078B4A5 /* Racks */,
 				E0CE5EE8175F5C570078B4A5 /* Frameworks */,
 				E0CE5EE7175F5C570078B4A5 /* Products */,
@@ -104,6 +108,8 @@
 		E0CE5EE8175F5C570078B4A5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E0CE5F0C175F5E9A0078B4A5 /* QuartzCore.framework */,
+				E0CE5F0E175F5EA70078B4A5 /* CoreData.framework */,
 				E0CE5EE9175F5C570078B4A5 /* UIKit.framework */,
 				E0CE5EEB175F5C570078B4A5 /* Foundation.framework */,
 				E0CE5EED175F5C570078B4A5 /* CoreGraphics.framework */,
@@ -149,6 +155,8 @@
 				E082041F176100CF009E4C27 /* Release.m */,
 				E082041B176100BF009E4C27 /* Artist.h */,
 				E082041C176100BF009E4C27 /* Artist.m */,
+				E0069C1B176A0C0D00767239 /* RacksDataManager.h */,
+				E0069C1C176A0C0D00767239 /* RacksDataManager.m */,
 			);
 			name = CoreData;
 			sourceTree = "<group>";
@@ -164,6 +172,8 @@
 				E0E595511760E6C300CD9C3A /* GamesViewController.m */,
 				E0E595541760E9EC00CD9C3A /* BooksViewController.h */,
 				E0E595551760E9EC00CD9C3A /* BooksViewController.m */,
+				E0069C1E176A27DF00767239 /* AddMusicViewController.h */,
+				E0069C1F176A27DF00767239 /* AddMusicViewController.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -246,6 +256,8 @@
 				E0E595591760EC1100CD9C3A /* Racks.xcdatamodeld in Sources */,
 				E082041D176100BF009E4C27 /* Artist.m in Sources */,
 				E0820420176100CF009E4C27 /* Release.m in Sources */,
+				E0069C1D176A0C0D00767239 /* RacksDataManager.m in Sources */,
+				E0069C20176A27DF00767239 /* AddMusicViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

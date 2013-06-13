@@ -177,6 +177,7 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Ybe-9c-KCA">
                             <connections>
                                 <action selector="pushAddMusicButtonAction:" destination="lqe-IB-iXn" id="Rff-u5-bn2"/>
+                                <segue destination="Rtx-ub-gXC" kind="push" id="uhh-Gl-iqN"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -189,19 +190,48 @@
             </objects>
             <point key="canvasLocation" x="566" y="-491"/>
         </scene>
-        <!--View Controller-->
+        <!--Add Music View Controller - addMusicController-->
         <scene sceneID="XG8-wC-lkV">
             <objects>
-                <viewController id="Rtx-ub-gXC" sceneMemberID="viewController">
+                <viewController title="addMusicController" id="Rtx-ub-gXC" customClass="AddMusicViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xe9-YZ-KcN">
-                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" barStyle="blackOpaque" placeholder="search Artist" translatesAutoresizingMaskIntoConstraints="NO" id="LYf-ip-w62">
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Rtx-ub-gXC" id="7KZ-mD-8FU"/>
+                                </connections>
+                            </searchBar>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="LYf-ip-w62" firstAttribute="trailing" secondItem="xe9-YZ-KcN" secondAttribute="trailing" type="default" id="3se-XG-SyC"/>
+                            <constraint firstItem="LYf-ip-w62" firstAttribute="leading" secondItem="xe9-YZ-KcN" secondAttribute="leading" type="default" id="4B1-kX-5cT"/>
+                            <constraint firstItem="LYf-ip-w62" firstAttribute="top" secondItem="xe9-YZ-KcN" secondAttribute="top" type="default" id="nQ4-f0-aKh"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Add Music" id="3Tc-Nw-G1p">
+                        <barButtonItem key="backBarButtonItem" title="back" id="OIF-9h-mE0"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="searchBar" destination="LYf-ip-w62" id="15A-Tc-PMa"/>
+                        <outlet property="searchDisplayController" destination="fng-9u-DDL" id="TqT-1B-sLg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lR0-iP-hZk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="fng-9u-DDL">
+                    <connections>
+                        <outlet property="delegate" destination="Rtx-ub-gXC" id="Mpy-gZ-Bi2"/>
+                        <outlet property="searchBar" destination="LYf-ip-w62" id="Nd3-i4-df2"/>
+                        <outlet property="searchContentsController" destination="Rtx-ub-gXC" id="iar-9x-rjc"/>
+                        <outlet property="searchResultsDataSource" destination="Rtx-ub-gXC" id="yqM-Hb-s11"/>
+                        <outlet property="searchResultsDelegate" destination="Rtx-ub-gXC" id="Qgk-78-yb8"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="991" y="-491"/>
+            <point key="canvasLocation" x="1068" y="-491"/>
         </scene>
         <!--Games View Controller - Games-->
         <scene sceneID="KaP-hh-ZRv">
@@ -280,6 +310,12 @@
         <image name="games.png" width="152" height="257"/>
     </resources>
     <classes>
+        <class className="AddMusicViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AddMusicViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
+            </relationships>
+        </class>
         <class className="BooksViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/BooksViewController.h"/>
             <relationships>
@@ -290,7 +326,6 @@
         <class className="GamesViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/GamesViewController.h"/>
             <relationships>
-                <relationship kind="action" name="addGamesAction:"/>
                 <relationship kind="outlet" name="addGamesButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="gamesTable" candidateClass="UITableView"/>
             </relationships>
