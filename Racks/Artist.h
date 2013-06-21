@@ -9,12 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+@class Release;
 
 @interface Artist : NSManagedObject
 
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * wikiLink;
-@property (nonatomic, retain) NSSet *released;
+@property (nonatomic, retain) NSArray *released;
+
 @end
 
 @interface Artist (CoreDataGeneratedAccessors)

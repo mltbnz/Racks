@@ -1,25 +1,18 @@
 //
-//  MusicViewController.m
+//  AddElementViewController.m
 //  Racks
 //
-//  Created by Mercedes Bünz on 05.06.13.
+//  Created by Mercedes Bünz on 16.06.13.
 //  Copyright (c) 2013 Malte Bünz. All rights reserved.
 //
 
-#import "MusicViewController.h"
+#import "AddElementViewController.h"
 
-@interface MusicViewController ()
-
-@property (nonatomic, strong) NSFetchedResultsController *resultsController;
-@property (nonatomic, strong) RacksDataManager *dataManager;
+@interface AddElementViewController ()
 
 @end
 
-@implementation MusicViewController
-
-- (IBAction)pushAddMusicButtonAction:(id)sender {
-
-}
+@implementation AddElementViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

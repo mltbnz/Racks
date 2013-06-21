@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RacksDataManager.h"
 
-@interface MusicViewController : UIViewController
+@interface MusicViewController : UITableViewController <NSFetchedResultsControllerDelegate>;
 
 @property (weak, nonatomic) IBOutlet UITableView *musicTable;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *addMusicButton;
+@property (weak, nonatomic) IBOutlet UITabBar *tabBar;
 
 @end

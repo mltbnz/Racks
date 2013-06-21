@@ -1,25 +1,18 @@
 //
-//  MusicViewController.m
+//  SearchMusicViewController.m
 //  Racks
 //
-//  Created by Mercedes Bünz on 05.06.13.
+//  Created by Mercedes Bünz on 16.06.13.
 //  Copyright (c) 2013 Malte Bünz. All rights reserved.
 //
 
-#import "MusicViewController.h"
+#import "SearchMusicViewController.h"
 
-@interface MusicViewController ()
-
-@property (nonatomic, strong) NSFetchedResultsController *resultsController;
-@property (nonatomic, strong) RacksDataManager *dataManager;
+@interface SearchMusicViewController ()
 
 @end
 
-@implementation MusicViewController
-
-- (IBAction)pushAddMusicButtonAction:(id)sender {
-
-}
+@implementation SearchMusicViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

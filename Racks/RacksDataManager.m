@@ -10,6 +10,9 @@
 
 @implementation RacksDataManager
 
+@dynamic dbDocument;
+
+
 + (id)sharedDocument
 {
     static RacksDataManager *sharedDocument;

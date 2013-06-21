@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		E0069C1D176A0C0D00767239 /* RacksDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E0069C1C176A0C0D00767239 /* RacksDataManager.m */; };
-		E0069C20176A27DF00767239 /* AddMusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0069C1F176A27DF00767239 /* AddMusicViewController.m */; };
 		E082041D176100BF009E4C27 /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = E082041C176100BF009E4C27 /* Artist.m */; };
 		E0820420176100CF009E4C27 /* Release.m in Sources */ = {isa = PBXBuildFile; fileRef = E082041F176100CF009E4C27 /* Release.m */; };
 		E0CE5EEA175F5C570078B4A5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0CE5EE9175F5C570078B4A5 /* UIKit.framework */; };
@@ -28,6 +27,10 @@
 		E0CE5F16175F69920078B4A5 /* games.png in Resources */ = {isa = PBXBuildFile; fileRef = E0CE5F15175F69920078B4A5 /* games.png */; };
 		E0CE5F18175F72A10078B4A5 /* book.png in Resources */ = {isa = PBXBuildFile; fileRef = E0CE5F17175F72A10078B4A5 /* book.png */; };
 		E0CE5F1D175F95110078B4A5 /* MusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0CE5F1C175F95110078B4A5 /* MusicViewController.m */; };
+		E0D1C885176F2555004EA62D /* AddMusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0D1C884176F2555004EA62D /* AddMusicViewController.m */; };
+		E0D1C887176F58B5004EA62D /* 111-user.png in Resources */ = {isa = PBXBuildFile; fileRef = E0D1C886176F58B5004EA62D /* 111-user.png */; };
+		E0D1C889176F5902004EA62D /* 45-movie-1.png in Resources */ = {isa = PBXBuildFile; fileRef = E0D1C888176F5902004EA62D /* 45-movie-1.png */; };
+		E0D1C88B176F5924004EA62D /* 44-shoebox.png in Resources */ = {isa = PBXBuildFile; fileRef = E0D1C88A176F5924004EA62D /* 44-shoebox.png */; };
 		E0E595521760E6C300CD9C3A /* GamesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0E595511760E6C300CD9C3A /* GamesViewController.m */; };
 		E0E595561760E9EC00CD9C3A /* BooksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0E595551760E9EC00CD9C3A /* BooksViewController.m */; };
 		E0E595591760EC1100CD9C3A /* Racks.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E0E595571760EC1100CD9C3A /* Racks.xcdatamodeld */; };
@@ -36,8 +39,6 @@
 /* Begin PBXFileReference section */
 		E0069C1B176A0C0D00767239 /* RacksDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RacksDataManager.h; sourceTree = "<group>"; };
 		E0069C1C176A0C0D00767239 /* RacksDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RacksDataManager.m; sourceTree = "<group>"; };
-		E0069C1E176A27DF00767239 /* AddMusicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddMusicViewController.h; sourceTree = "<group>"; };
-		E0069C1F176A27DF00767239 /* AddMusicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddMusicViewController.m; sourceTree = "<group>"; };
 		E082041B176100BF009E4C27 /* Artist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Artist.h; sourceTree = "<group>"; };
 		E082041C176100BF009E4C27 /* Artist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Artist.m; sourceTree = "<group>"; };
 		E082041E176100CF009E4C27 /* Release.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Release.h; sourceTree = "<group>"; };
@@ -65,6 +66,11 @@
 		E0CE5F17175F72A10078B4A5 /* book.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = book.png; sourceTree = "<group>"; };
 		E0CE5F1B175F95110078B4A5 /* MusicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicViewController.h; sourceTree = "<group>"; };
 		E0CE5F1C175F95110078B4A5 /* MusicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicViewController.m; sourceTree = "<group>"; };
+		E0D1C883176F2555004EA62D /* AddMusicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddMusicViewController.h; sourceTree = "<group>"; };
+		E0D1C884176F2555004EA62D /* AddMusicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddMusicViewController.m; sourceTree = "<group>"; };
+		E0D1C886176F58B5004EA62D /* 111-user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "111-user.png"; sourceTree = "<group>"; };
+		E0D1C888176F5902004EA62D /* 45-movie-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "45-movie-1.png"; sourceTree = "<group>"; };
+		E0D1C88A176F5924004EA62D /* 44-shoebox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "44-shoebox.png"; sourceTree = "<group>"; };
 		E0E595501760E6C300CD9C3A /* GamesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamesViewController.h; sourceTree = "<group>"; };
 		E0E595511760E6C300CD9C3A /* GamesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamesViewController.m; sourceTree = "<group>"; };
 		E0E595541760E9EC00CD9C3A /* BooksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooksViewController.h; sourceTree = "<group>"; };
@@ -133,6 +139,9 @@
 		E0CE5EF0175F5C570078B4A5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E0D1C88A176F5924004EA62D /* 44-shoebox.png */,
+				E0D1C888176F5902004EA62D /* 45-movie-1.png */,
+				E0D1C886176F58B5004EA62D /* 111-user.png */,
 				E0CE5F17175F72A10078B4A5 /* book.png */,
 				E0CE5F15175F69920078B4A5 /* games.png */,
 				E0CE5F13175F69230078B4A5 /* Helveticons_148.png */,
@@ -172,8 +181,8 @@
 				E0E595511760E6C300CD9C3A /* GamesViewController.m */,
 				E0E595541760E9EC00CD9C3A /* BooksViewController.h */,
 				E0E595551760E9EC00CD9C3A /* BooksViewController.m */,
-				E0069C1E176A27DF00767239 /* AddMusicViewController.h */,
-				E0069C1F176A27DF00767239 /* AddMusicViewController.m */,
+				E0D1C883176F2555004EA62D /* AddMusicViewController.h */,
+				E0D1C884176F2555004EA62D /* AddMusicViewController.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -237,6 +246,9 @@
 				E0CE5F14175F69230078B4A5 /* Helveticons_148.png in Resources */,
 				E0CE5F16175F69920078B4A5 /* games.png in Resources */,
 				E0CE5F18175F72A10078B4A5 /* book.png in Resources */,
+				E0D1C887176F58B5004EA62D /* 111-user.png in Resources */,
+				E0D1C889176F5902004EA62D /* 45-movie-1.png in Resources */,
+				E0D1C88B176F5924004EA62D /* 44-shoebox.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,7 +269,7 @@
 				E082041D176100BF009E4C27 /* Artist.m in Sources */,
 				E0820420176100CF009E4C27 /* Release.m in Sources */,
 				E0069C1D176A0C0D00767239 /* RacksDataManager.m in Sources */,
-				E0069C20176A27DF00767239 /* AddMusicViewController.m in Sources */,
+				E0D1C885176F2555004EA62D /* AddMusicViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
