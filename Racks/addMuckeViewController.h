@@ -1,14 +1,15 @@
 //
-//  AddMusicViewController.h
+//  addMuckeViewController.h
 //  Racks
 //
-//  Created by Mercedes Bünz on 24.06.13.
+//  Created by Mercedes Bünz on 28.06.13.
 //  Copyright (c) 2013 Malte Bünz. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface AddMusicViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate> {
+@interface addMuckeViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate, UIScrollViewDelegate, UISearchBarDelegate>
+{
     IBOutlet UITextField *artistText;
     IBOutlet UITextField *albumText;
     IBOutlet UITextField *labelText;
@@ -16,17 +17,10 @@
     CGPoint scrollPoint;
     CGPoint viewCenter;
     CGFloat offset;
+    CGFloat animatedDistance;
 }
-
-//
-//@property (weak, nonatomic) IBOutlet UITextField *nextTextField;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (weak, nonatomic) IBOutlet UILabel *overviewLabel;
 @property (weak, nonatomic) IBOutlet UIToolbar *bottomNavBar;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *saveButton;
-
-
-- (void)textFieldDidBeginEditing:(UITextField*)textField;
-- (BOOL)textFieldShouldReturn:(UITextField *)textField;
 
 @end

@@ -10,16 +10,12 @@
 
 @interface MusicViewController ()
 
-@property (nonatomic, strong) NSFetchedResultsController *resultsController;
+//@property (nonatomic, strong) NSFetchedResultsController *resultsController;
 @property (nonatomic, strong) RacksDataManager *dataManager;
 
 @end
 
 @implementation MusicViewController
-
-- (IBAction)pushAddMusicButtonAction:(id)sender {
-
-}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
