@@ -9,6 +9,14 @@
 #import "addMuckeViewController.h"
 
 @interface addMuckeViewController ()
+{
+    BOOL isFiltered;
+    BOOL artistIsFiltered;
+    NSMutableArray* totalData;
+    NSMutableArray* filterData;
+    NSMutableArray* testArray;
+    NSMutableArray* artistSelectArray;
+}
 
 @end
 
@@ -105,6 +113,84 @@
     [myScrollView setContentOffset:viewCenter animated:YES];
 
 }
+
+#pragma mark SearchBar
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    //    NSLog(@"Editing");
+    
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+
+}
+
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    }
+}
+
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // CoreData Logic goes here
+}
+
+#pragma mark - Methods
+- (NSURL*) createUrl:(NSString*) searchString
+{
+    NSURL* url;
+    NSString *theURL        = [NSString stringWithFormat:@"%@%@%@",DiscogsURL,searchString,returnType];
+    NSString *urlConverted  = [theURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    url = [NSURL URLWithString:urlConverted];
+    NSLog(@"%@", url);
+    return url;
+}
+
+- (void) fetchedData:(NSData*)responseData
+{
+    NSError* error;
+    NSMutableDictionary* json = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:&error];
+    if (!json)
+    {
+        NSLog(@"Error parsing JSON: %@", error);
+    } else
+    {
+        [filterData addObject:[json objectForKey:@"title"]];
+        // [self.tableView reloadData];
+    }
+}
+
 
 
 @end

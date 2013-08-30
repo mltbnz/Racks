@@ -1,5 +1,5 @@
 //
-//  SearchMusicViewController.h
+//  ScanViewController.h
 //  Racks
 //
 //  Created by Mercedes Bünz on 23.08.13.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SearchMusicViewController : UITableViewController
+@interface ScanViewController : UIViewController
 
 @end

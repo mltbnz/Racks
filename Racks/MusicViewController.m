@@ -29,6 +29,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    UIBarButtonItem *searchButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButtonAction:)];
+    UIBarButtonItem *scanMusicButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(scanButtonAction:)];
+    
+    NSArray *buttonsArray = [[NSArray alloc] initWithObjects:scanMusicButton, searchButton, nil];
+    
+    self.navigationItem.rightBarButtonItems = buttonsArray;
+    
 	// Do any additional setup after loading the view.
 }
 
@@ -36,6 +44,32 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+# pragma mark - ButtonAction
+
+- (IBAction)scanButtonAction:(id)sender {
+    NSLog(@"TEST1");
+//    ScanViewController *scanView = [[ScanViewController alloc] init];
+//    [self presentViewController:scanView animated:YES completion:NULL];
+    [self performSegueWithIdentifier:@"scanSegue" sender:self];
+}
+
+- (IBAction)searchButtonAction:(id)sender {
+    NSLog(@"TEST2");
+    [self performSegueWithIdentifier:@"searchSegue" sender:self];
+}
+
+# pragma mark - Functions
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"searchSegue"])
+    {
+        
+    } else if ([[segue identifier] isEqualToString:@"scahSegue"]) {
+        
+    }
 }
 
 @end
