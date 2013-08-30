@@ -9,6 +9,14 @@
 #import "SearchMusicViewController.h"
 
 @interface SearchMusicViewController ()
+{
+    BOOL isFiltered;
+    BOOL artistIsFiltered;
+    NSMutableArray* totalData;
+    NSMutableArray* filterData;
+    NSMutableArray* testArray;
+    NSMutableArray* artistSelectArray;
+}
 
 @end
 
@@ -26,6 +34,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -44,14 +53,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
     return 0;
 }
@@ -66,45 +73,6 @@
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -116,6 +84,78 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+}
+
+# pragma mark - SearchBar Delegate
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    //    NSLog(@"Editing");
+    
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+    // Eingabe Test
+    NSString* searchString = self.searchBar.text;
+    //    NSLog(@"%@", searchString);
+    //
+    if (self.searchBar.text.length == 0) {
+        isFiltered = NO;
+    }
+    else
+    {
+        isFiltered      = YES;
+        filterData      = [[NSMutableArray alloc] init];
+        NSURL* url      = [self createUrl:searchString];
+        NSData* data    = [NSData dataWithContentsOfURL:url];
+        if (data == nil) {
+            NSLog(@"Error");
+        } else {
+            [self performSelectorOnMainThread:@selector(fetchedData:) withObject:data waitUntilDone:YES];
+        }
+    }
+}
+
+# pragma  mark - Functions
+
+- (NSURL*) createUrl:(NSString*) searchString
+{
+    NSURL* url;
+    NSString *theURL        = [NSString stringWithFormat:@"%@%@%@",DiscogsURL,searchString,returnType];
+    NSString *urlConverted  = [theURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    url = [NSURL URLWithString:urlConverted];
+    NSLog(@"%@", url);
+    return url;
+}
+
+- (void) fetchedData:(NSData*)responseData
+{
+    NSError* error;
+    NSMutableDictionary* json = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:&error];
+    if (!json)
+    {
+        NSLog(@"Error parsing JSON: %@", error);
+    } else
+    {
+        [filterData addObject:[json objectForKey:@"title"]];
+        [self.tableView reloadData];
+    }
+}
+
+- (void) getToken:(NSString*) token
+{
+    
 }
 
 @end

@@ -14,7 +14,6 @@
 @interface MusicViewController : UITableViewController <NSFetchedResultsControllerDelegate>;
 
 @property (weak, nonatomic) IBOutlet UITableView *musicTable;
-//@property (weak, nonatomic) IBOutlet UIBarButtonItem *addMusicButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *searchButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *scanMusicButton;
 @property (weak, nonatomic) UIView *MusicViewController;

@@ -48,14 +48,16 @@
 
 # pragma mark - ButtonAction
 
-- (IBAction)scanButtonAction:(id)sender {
+- (IBAction)scanButtonAction:(id)sender
+{
     NSLog(@"TEST1");
 //    ScanViewController *scanView = [[ScanViewController alloc] init];
 //    [self presentViewController:scanView animated:YES completion:NULL];
     [self performSegueWithIdentifier:@"scanSegue" sender:self];
 }
 
-- (IBAction)searchButtonAction:(id)sender {
+- (IBAction)searchButtonAction:(id)sender
+{
     NSLog(@"TEST2");
     [self performSegueWithIdentifier:@"searchSegue" sender:self];
 }
@@ -67,7 +69,7 @@
     if ([[segue identifier] isEqualToString:@"searchSegue"])
     {
         
-    } else if ([[segue identifier] isEqualToString:@"scahSegue"]) {
+    } else if ([[segue identifier] isEqualToString:@"scanSegue"]) {
         
     }
 }

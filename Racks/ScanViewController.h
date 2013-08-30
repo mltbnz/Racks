@@ -10,4 +10,9 @@
 
 @interface ScanViewController : UIViewController
 
+//@property (weak, nonatomic) IBOutlet UINavigationBar *navBar;
+//@property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
+
+//- (IBAction) backButtonAction:(id)sender;
+
 @end
