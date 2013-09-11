@@ -26,7 +26,7 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
+        
     }
     return self;
 }
@@ -34,8 +34,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
 
+    self.searchBar.showsScopeBar = NO;
+    self.searchBar.showsCancelButton = NO;
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -60,7 +62,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 0;
+    return filterData.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -68,7 +70,12 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
+    if (cell == nil)
+    {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
     // Configure the cell...
+    cell.textLabel.text = [filterData objectAtIndex:indexPath.row];
     
     return cell;
 }
@@ -95,13 +102,28 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
+    NSString* searchString = @"";
+    
+    // [searchString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    if ([searchText length] > 0) {
+        totalData = [[NSMutableArray alloc] init];
+        NSURL* url = [self createAutocompleteUrl:searchText];
+        NSData* data = [NSData dataWithContentsOfURL:url];
+    }
+    else
+    {
+        
+        // add Objects from Array
+    }
+
 
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
     //    NSLog(@"Editing");
-    
+
 }
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
@@ -122,7 +144,7 @@
         if (data == nil) {
             NSLog(@"Error");
         } else {
-            [self performSelectorOnMainThread:@selector(fetchedData:) withObject:data waitUntilDone:YES];
+            
         }
     }
 }
@@ -132,25 +154,40 @@
 - (NSURL*) createUrl:(NSString*) searchString
 {
     NSURL* url;
-    NSString *theURL        = [NSString stringWithFormat:@"%@%@%@",DiscogsURL,searchString,returnType];
+    NSString *theURL        = [NSString stringWithFormat:@"%@%@%@",DISCOGSURL,searchString,RETURNTYPE];
     NSString *urlConverted  = [theURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     url = [NSURL URLWithString:urlConverted];
     NSLog(@"%@", url);
     return url;
 }
 
-- (void) fetchedData:(NSData*)responseData
+- (NSURL*) createAutocompleteUrl:(NSString*) searchString
+{
+    //
+    NSURL* url;
+    NSString* theUrl = [NSString stringWithFormat:@"%@%@%@%@%@%@%@",ROVIURL,@"apikey=",AUTOCOMPLETEKEY,@"&sig=",AUTOCOMPLETESECRET,@"entitytype=artist&query=",searchString];
+    NSString *urlConverted  = [theUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    url = [NSURL URLWithString:urlConverted];
+    NSLog(@"%@", url);
+    return url;
+}
+
+- (NSMutableArray*) fetchedData:(NSData*)responseData :(NSString*)category :(NSMutableArray*)array
 {
     NSError* error;
+    NSMutableArray* fetchedArray;
+    
     NSMutableDictionary* json = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:&error];
     if (!json)
     {
         NSLog(@"Error parsing JSON: %@", error);
-    } else
+    }
+    else
     {
-        [filterData addObject:[json objectForKey:@"title"]];
+        [array addObject:[json objectForKey:(NSString*) category]];
         [self.tableView reloadData];
     }
+    return fetchedArray;
 }
 
 - (void) getToken:(NSString*) token
