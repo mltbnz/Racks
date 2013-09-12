@@ -12,10 +12,10 @@
 {
     BOOL isFiltered;
     BOOL artistIsFiltered;
-    NSMutableArray* totalData;
-    NSMutableArray* filterData;
-    NSMutableArray* testArray;
+    NSMutableData* totalData;
     NSMutableArray* artistSelectArray;
+    NSMutableArray* json;
+    NSMutableDictionary* jsonDict;
 }
 
 @end
@@ -37,6 +37,7 @@
 
     self.searchBar.showsScopeBar = NO;
     self.searchBar.showsCancelButton = NO;
+    
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -62,20 +63,21 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return filterData.count;
+    NSLog(@"artistSelectArray array size: %i", [artistSelectArray count]);
+    return [artistSelectArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (cell == nil)
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     // Configure the cell...
-    cell.textLabel.text = [filterData objectAtIndex:indexPath.row];
+    cell.textLabel.text = [artistSelectArray objectAtIndex:indexPath.row];
     
     return cell;
 }
@@ -102,21 +104,6 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    NSString* searchString = @"";
-    
-    // [searchString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    
-    if ([searchText length] > 0) {
-        totalData = [[NSMutableArray alloc] init];
-        NSURL* url = [self createAutocompleteUrl:searchText];
-        NSData* data = [NSData dataWithContentsOfURL:url];
-    }
-    else
-    {
-        
-        // add Objects from Array
-    }
-
 
 }
 
@@ -138,29 +125,100 @@
     else
     {
         isFiltered      = YES;
-        filterData      = [[NSMutableArray alloc] init];
         NSURL* url      = [self createUrl:searchString];
+        /*
         NSData* data    = [NSData dataWithContentsOfURL:url];
         if (data == nil) {
             NSLog(@"Error");
         } else {
-            
+            // call fetchedData here
+            // NSMutableArray *artistSelectArray = [self fetchedData:data];
         }
+         */
     }
 }
+
+#pragma mark - NSURLConnection Delegate Methods
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    // A response has been received, this is where we initialize the instance var you created
+    // so that we can append data to it in the didReceiveData method
+    // Furthermore, this method is called each time there is a redirect so reinitializing it
+    // also serves to clear it
+    NSLog(@"Verbindung steht");
+    totalData = [[NSMutableData alloc] init];
+    json = [[NSMutableArray alloc] init];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    // Append the new data to the instance variable you declared
+    NSLog(@"Received %d bytes of data",[data length]);
+    [totalData appendData:data];
+    NSLog(@"Received %d bytes of totalData",[totalData length]);
+}
+
+- (NSCachedURLResponse *)connection:(NSURLConnection *)connection
+                  willCacheResponse:(NSCachedURLResponse*)cachedResponse
+{
+    // Return nil to indicate not necessary to store a cached response for this connection
+    return nil;
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    // The request is complete and data has been received
+    // You can parse the stuff in your instance variable now
+    // NSLog(@"Succeeded! Received %d bytes of data", artistSelectArray.count);
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    NSError* error;
+    jsonDict = [NSJSONSerialization JSONObjectWithData:totalData options:0 error:&error];
+    NSLog(@"jsonDict size: %i", [jsonDict count]);
+    
+    
+    if ([jsonDict count] == 0)
+    {
+        NSLog(@"Error parsing JSON: %@", error);
+    }
+    else
+    {
+        artistSelectArray = [[[[jsonDict objectForKey:@"results"] objectForKey:@"artistmatches"] objectForKey:@"artist"] valueForKey:@"name"];
+    }
+    
+    NSLog(@"Succeeded! Received %d bytes of data", [artistSelectArray count]);
+    [self.tableView reloadData];
+    // NSMutableArray *artistSelectArray = [self :totalData];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    // The request has failed for some reason!
+    // Check the error var
+    UIAlertView *errorView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"The Download could not be completed - Please make sure you are either connected to 3G or Wi-Fi." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+    [errorView show];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+}
+
 
 # pragma  mark - Functions
 
 - (NSURL*) createUrl:(NSString*) searchString
 {
+    // Activity Indicator
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+
     NSURL* url;
-    NSString *theURL        = [NSString stringWithFormat:@"%@%@%@",DISCOGSURL,searchString,RETURNTYPE];
+    NSString *theURL        = [NSString stringWithFormat:@"%@%@%@%@",LASTFMSEARCHARTISTURL,searchString,LASTFMKEY,RETURNTYPE];
     NSString *urlConverted  = [theURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    url = [NSURL URLWithString:urlConverted];
-    NSLog(@"%@", url);
+    NSURLRequest *request   = [NSURLRequest requestWithURL:[NSURL URLWithString:urlConverted]];
+    NSURLConnection *conn   = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    NSLog(@"%@", urlConverted);
     return url;
 }
 
+/*
 - (NSURL*) createAutocompleteUrl:(NSString*) searchString
 {
     //
@@ -172,7 +230,8 @@
     return url;
 }
 
-- (NSMutableArray*) fetchedData:(NSData*)responseData :(NSString*)category :(NSMutableArray*)array
+
+- (NSMutableArray*) fetchedData:(NSData*) responseData
 {
     NSError* error;
     NSMutableArray* fetchedArray;
@@ -184,11 +243,12 @@
     }
     else
     {
-        [array addObject:[json objectForKey:(NSString*) category]];
-        [self.tableView reloadData];
+        [fetchedArray addObject:[json objectForKey:@"name"]];
+        // [self.tableView reloadData];
     }
     return fetchedArray;
 }
+*/
 
 - (void) getToken:(NSString*) token
 {
