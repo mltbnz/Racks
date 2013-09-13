@@ -11,15 +11,15 @@
 #import "SearchMusicViewController.h"
 #import "ScanViewController.h"
 
-@interface MusicViewController : UITableViewController <NSFetchedResultsControllerDelegate>;
+@interface MusicViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate>;
 
 @property (weak, nonatomic) IBOutlet UITableView *musicTable;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *searchButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *scanMusicButton;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) UIView *MusicViewController;
 
 - (IBAction)scanButtonAction:(id)sender;
 - (IBAction)searchButtonAction:(id)sender;
-
 
 @end

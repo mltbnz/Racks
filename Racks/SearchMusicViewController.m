@@ -16,6 +16,8 @@
     NSMutableArray* artistSelectArray;
     NSMutableArray* json;
     NSMutableDictionary* jsonDict;
+    
+    NSMutableArray* testArray;
 }
 
 @end
@@ -34,11 +36,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     self.searchBar.showsScopeBar = NO;
     self.searchBar.showsCancelButton = NO;
     
-    
+    testArray = [[NSMutableArray alloc] initWithObjects:@"Malte", nil];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -65,10 +67,12 @@
     // Return the number of rows in the section.
     NSLog(@"artistSelectArray array size: %i", [artistSelectArray count]);
     return [artistSelectArray count];
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"cellCall");
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
@@ -77,9 +81,11 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     // Configure the cell...
-    cell.textLabel.text = [artistSelectArray objectAtIndex:indexPath.row];
-    
+   cell.textLabel.text = [artistSelectArray objectAtIndex:indexPath.row];
+
     return cell;
+    [self.tableView reloadData];
+    // [self.searchDisplayController.searchResultsTableView reloadData];
 }
 
 #pragma mark - Table view delegate
@@ -99,6 +105,31 @@
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
+    [artistSelectArray removeAllObjects];
+    [self.tableView reloadData];
+    NSString* searchString = self.searchBar.text;
+    //    NSLog(@"%@", searchString);
+    //
+    if (self.searchBar.text.length == 0) {
+        isFiltered = NO;
+    }
+    else
+    {
+        isFiltered      = YES;
+        NSURL* url      = [self createUrl:searchString];
+        /*
+         NSData* data    = [NSData dataWithContentsOfURL:url];
+         if (data == nil) {
+         NSLog(@"Error");
+         } else {
+         // call fetchedData here
+         // NSMutableArray *artistSelectArray = [self fetchedData:data];
+         }
+         */
+    }
+    [self.searchBar resignFirstResponder];
+    // [self.searchDisplayController.searchResultsTableView reloadData];
+    [self.tableView reloadData];
     
 }
 
@@ -115,27 +146,10 @@
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
+    // [self.searchDisplayController.searchResultsTableView reloadData];
+    [self.tableView reloadData];
     // Eingabe Test
-    NSString* searchString = self.searchBar.text;
-    //    NSLog(@"%@", searchString);
-    //
-    if (self.searchBar.text.length == 0) {
-        isFiltered = NO;
-    }
-    else
-    {
-        isFiltered      = YES;
-        NSURL* url      = [self createUrl:searchString];
-        /*
-        NSData* data    = [NSData dataWithContentsOfURL:url];
-        if (data == nil) {
-            NSLog(@"Error");
-        } else {
-            // call fetchedData here
-            // NSMutableArray *artistSelectArray = [self fetchedData:data];
-        }
-         */
-    }
+
 }
 
 #pragma mark - NSURLConnection Delegate Methods
@@ -201,8 +215,27 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
+# pragma mark - UISearchDisplayController Delegate Methods
+
+-(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    return YES;
+}
+
+-(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
+{
+    return NO;
+}
+
 
 # pragma  mark - Functions
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.tableView reloadData];
+}
 
 - (NSURL*) createUrl:(NSString*) searchString
 {

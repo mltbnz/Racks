@@ -21,7 +21,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SearchMusicViewController : UITableViewController<UITableViewDataSource, UISearchBarDelegate, UITableViewDelegate, NSURLConnectionDelegate>
+@interface SearchMusicViewController : UITableViewController<UITableViewDataSource, UISearchBarDelegate, UITableViewDelegate, NSURLConnectionDelegate, UISearchDisplayDelegate>
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
