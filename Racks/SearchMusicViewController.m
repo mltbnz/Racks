@@ -9,6 +9,10 @@
 #import "SearchMusicViewController.h"
 
 @interface SearchMusicViewController ()
+
+@end
+
+@implementation SearchMusicViewController
 {
     BOOL isFiltered;
     BOOL artistIsFiltered;
@@ -19,10 +23,6 @@
     
     NSMutableArray* testArray;
 }
-
-@end
-
-@implementation SearchMusicViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -38,9 +38,15 @@
     [super viewDidLoad];
     
     self.searchBar.showsScopeBar = NO;
-    self.searchBar.showsCancelButton = NO;
+    self.searchBar.showsCancelButton = YES;
+
+    int sec = 1000;
+    wait(&sec);
     
-    testArray = [[NSMutableArray alloc] initWithObjects:@"Malte", nil];
+    self.tableView.contentOffset = CGPointMake(0.0, self.searchBar.frame.size.height);
+    
+    
+    // testArray = [[NSMutableArray alloc] initWithObjects:@"Malte", nil];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -67,7 +73,6 @@
     // Return the number of rows in the section.
     NSLog(@"artistSelectArray array size: %i", [artistSelectArray count]);
     return [artistSelectArray count];
-    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -81,7 +86,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     // Configure the cell...
-   cell.textLabel.text = [artistSelectArray objectAtIndex:indexPath.row];
+    cell.textLabel.text = [artistSelectArray objectAtIndex:indexPath.row];
 
     return cell;
     [self.tableView reloadData];
@@ -92,21 +97,19 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    [self performSegueWithIdentifier: @"artistDetailSegue" sender: self];
 }
+
 
 # pragma mark - SearchBar Delegate
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [artistSelectArray removeAllObjects];
+    [json removeAllObjects];
+    [jsonDict removeAllObjects];
     [self.tableView reloadData];
+    
     NSString* searchString = self.searchBar.text;
     //    NSLog(@"%@", searchString);
     //
@@ -116,7 +119,11 @@
     else
     {
         isFiltered      = YES;
-        NSURL* url      = [self createUrl:searchString];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        
+        NSString* url      = [self createUrl:searchString];
+        NSURLRequest *request   = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+        NSURLConnection *conn   = [[NSURLConnection alloc] initWithRequest:request delegate:self];
         /*
          NSData* data    = [NSData dataWithContentsOfURL:url];
          if (data == nil) {
@@ -131,6 +138,11 @@
     // [self.searchDisplayController.searchResultsTableView reloadData];
     [self.tableView reloadData];
     
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar
+{
+    [self.searchBar resignFirstResponder];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
@@ -237,18 +249,16 @@
     [self.tableView reloadData];
 }
 
-- (NSURL*) createUrl:(NSString*) searchString
+- (NSString*) createUrl:(NSString*) searchString
 {
     // Activity Indicator
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    // [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 
-    NSURL* url;
+    // NSURL* url;
     NSString *theURL        = [NSString stringWithFormat:@"%@%@%@%@",LASTFMSEARCHARTISTURL,searchString,LASTFMKEY,RETURNTYPE];
     NSString *urlConverted  = [theURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURLRequest *request   = [NSURLRequest requestWithURL:[NSURL URLWithString:urlConverted]];
-    NSURLConnection *conn   = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     NSLog(@"%@", urlConverted);
-    return url;
+    return urlConverted;
 }
 
 /*
@@ -283,9 +293,21 @@
 }
 */
 
-- (void) getToken:(NSString*) token
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    
+    if ([segue.identifier isEqualToString:@"artistDetailSegue"])
+    {
+        ArtistAlbumViewController *destViewController = [segue destinationViewController];
+        
+        NSIndexPath *indexPath = nil;
+
+        indexPath = [self.tableView indexPathForSelectedRow];
+        NSString *destinationTitle = [artistSelectArray objectAtIndex:indexPath.row];
+        destViewController.artistName = destinationTitle;
+        [destViewController setTitle:destinationTitle];
+        destViewController.navigationItem.backBarButtonItem.title = @"back";
+    }
 }
+
 
 @end

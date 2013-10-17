@@ -20,6 +20,7 @@
 
 
 #import <UIKit/UIKit.h>
+#import "ArtistAlbumViewController.h"
 
 @interface SearchMusicViewController : UITableViewController<UITableViewDataSource, UISearchBarDelegate, UITableViewDelegate, NSURLConnectionDelegate, UISearchDisplayDelegate>
 
@@ -27,8 +28,8 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 
-- (NSURL*) createUrl:(NSString*) searchString;
+- (NSString*) createUrl:(NSString*) searchString;
 - (NSMutableArray*) fetchedData:(NSData*)responseData;
-- (void) getToken:(NSString*) token;
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender;
 
 @end
