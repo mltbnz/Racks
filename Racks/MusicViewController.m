@@ -79,7 +79,7 @@
 
 - (IBAction)scanButtonAction:(id)sender
 {
-    NSLog(@"TEST1");
+    // sNSLog(@"TEST1");
 //    ScanViewController *scanView = [[ScanViewController alloc] init];
 //    [self presentViewController:scanView animated:YES completion:NULL];
     [self performSegueWithIdentifier:@"scanSegue" sender:self];
@@ -87,7 +87,7 @@
 
 - (IBAction)searchButtonAction:(id)sender
 {
-    NSLog(@"TEST2");
+    // NSLog(@"TEST2");
     [self performSegueWithIdentifier:@"searchSegue" sender:self];
 }
 

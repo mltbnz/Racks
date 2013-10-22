@@ -40,8 +40,8 @@
     self.searchBar.showsScopeBar = NO;
     self.searchBar.showsCancelButton = YES;
 
-    int sec = 1000;
-    wait(&sec);
+//    int sec = 1000;
+//    wait(&sec);
     
     self.tableView.contentOffset = CGPointMake(0.0, self.searchBar.frame.size.height);
     
@@ -71,13 +71,13 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    NSLog(@"artistSelectArray array size: %i", [artistSelectArray count]);
+    // NSLog(@"artistSelectArray array size: %i", [artistSelectArray count]);
     return [artistSelectArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"cellCall");
+    // NSLog(@"cellCall");
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
@@ -213,7 +213,7 @@
         artistSelectArray = [[[[jsonDict objectForKey:@"results"] objectForKey:@"artistmatches"] objectForKey:@"artist"] valueForKey:@"name"];
     }
     
-    NSLog(@"Succeeded! Received %d bytes of data", [artistSelectArray count]);
+    // NSLog(@"Succeeded! Received %d bytes of data", [artistSelectArray count]);
     [self.tableView reloadData];
     // NSMutableArray *artistSelectArray = [self :totalData];
 }

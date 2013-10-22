@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ScanViewController : UIViewController
+@interface ScanViewController : UITableViewController<UITableViewDelegate, UITableViewDataSource>
 
 //@property (weak, nonatomic) IBOutlet UINavigationBar *navBar;
 //@property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;

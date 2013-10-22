@@ -10,7 +10,6 @@
 #define RETURNTYPE @"&format=json"
 #define ROVIURL @"http://api.rovicorp.com/search/v2.1/music/autocomplete?"
 #define LASTFMSEARCHARTISTURL @"http://ws.audioscrobbler.com/2.0/?method=artist.search&artist="
-// apikey=apikey&sig=sig&entitytype=artist&size=10&query=e
 // API Keys
 #define AUTOCOMPLETEKEY @"cfxhrmdbmhtn275wn9r5j49h"
 #define AUTOCOMPLETESECRET @"5vbmNmWVj6"
@@ -26,7 +25,6 @@
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-
 
 - (NSString*) createUrl:(NSString*) searchString;
 - (NSMutableArray*) fetchedData:(NSData*)responseData;

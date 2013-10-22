@@ -14,13 +14,14 @@
 
 @implementation ArtistAlbumViewController
 {
-    NSString* test;
     NSMutableArray* albumImages;
     NSMutableArray* albumNames;
     NSMutableData* jsonData;
     NSMutableDictionary* jsonDict;
-    NSMutableDictionary* imagesDictionary;
-    NSMutableDictionary* imagesURLS;    
+    NSMutableArray* imagesArray;
+    
+    
+    NSMutableDictionary* test;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -46,6 +47,8 @@
     NSString* url = [self createUrl:self.artistName];
     NSURLRequest *request   = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     NSURLConnection *conn   = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    
+    // NSString *infoURL = [self createUrl:<#(NSString *)#>]
     
 }
 
@@ -76,22 +79,32 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                        reuseIdentifier:CellIdentifier];
     }
-    
     NSString* albumName = [albumNames objectAtIndex:indexPath.row];
+    
+    // UIImage *placeholderImage = [UIImage imageNamed:@"placeholder.jpg"];
+    
+    NSString *url = [[[[albumImages objectAtIndex:indexPath.row] objectForKey:@"image"] objectAtIndex:2] objectForKey:@"#text"];
+    NSURL *imageURL = [NSURL URLWithString:url];
+    NSLog(@"URL: %@", url);
+    
+    // WebImage Use
+    [cell.imageView setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
+    
 //    NSLog(@"Albumname: %@\n!", albumName);
+  /*
     UIImage *placeholderImage = [UIImage imageNamed:@"placeholder.jpg"];
     
     // QUEUE
+    
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
     
     cell.imageView.image = placeholderImage;
-    NSString *url = [[[[albumImages objectAtIndex:indexPath.row] objectForKey:@"image"] objectAtIndex:1] objectForKey:@"#text"];
-    // [objectForKey:@"image"] objectAtIndex:1] valueForKey:@"#text"];
-    NSLog(@"URL: %@", url);
-    NSURL *imageURL = [NSURL URLWithString:url];
+//    NSString *url = [[[[albumImages objectAtIndex:indexPath.row] objectForKey:@"image"] objectAtIndex:2] objectForKey:@"#text"];
+//    NSURL *imageURL = [NSURL URLWithString:url];
+    test = [[NSMutableDictionary alloc] init];
     
     dispatch_async(queue, ^{
             NSData *data = [NSData dataWithContentsOfURL:imageURL];
@@ -99,33 +112,16 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 cell.imageView.image = image;
             });
-        });
+    });
     
+    NSLog(@"testSize: %lu", (unsigned long)[test count]);
+    for (NSMutableDictionary *yo in test) {
+        NSLog(@"test: %@", yo);
+    }
+*/
     cell.textLabel.text = albumName;
-    
-/*
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
-                   ^{
-                       NSURL *imageURL = [NSURL URLWithString:[albumImages objectAtIndex:indexPath.row]];
-                       // NSLog(@"%@", [albumImages objectAtIndex:indexPath.row]);
-                       
-                       __block NSData *imageData;
-                       
-                       dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
-                                      ^{
-                                          imageData = [NSData dataWithContentsOfURL:imageURL];
-                                          
-                                          [imagesDictionary setObject:[UIImage imageWithData:imageData] forKey:albumName];
-                                          
-                                          dispatch_sync(dispatch_get_main_queue(),
-                                                        ^{
-                                                            cell.imageView.image = [imagesDictionary objectForKey:albumName];
-                                                        });
-                                      });
-                   });
-    // Configure the cell...
-*/    
-    
+    cell.detailTextLabel.text = self.artistName;
+      
     return cell;
     
     [self.tableView reloadData];
@@ -138,12 +134,13 @@
 {
     // NSLog(@"didSelectRowAtIndexPath");
     // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
      // ...
      // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    // [self.navigationController performSegueWithIdentifier:@"toAlbumSegue" sender:self];
+    
+    AlbumViewController *albumViewController = [[AlbumViewController alloc] init];
+    
+    [self performSegueWithIdentifier:@"toAlbumSegue" sender:self];
 }
 
 #pragma mark - NSURLConnection Delegate Methods
@@ -197,14 +194,6 @@
     }
     
     NSLog(@"%@", [albumImages objectAtIndex:0]);
-    
-    /*
-    for (NSMutableDictionary *yo in albumImages) {
-        NSLog(@"%@", [[[yo objectForKey:@"image"] objectAtIndex:1] valueForKey:@"#text"]);
-    }
-    */
-
-    
 
     [self.tableView reloadData];
 }
@@ -222,12 +211,35 @@
 
 # pragma mark - Functions
 
-- (NSString*) createUrl:(NSString*) searchString
+- (NSString*) createUrl:(NSString*)searchString
 { 
     NSString *theURL        = [NSString stringWithFormat:@"%@%@%@%@",LASTFMSEARCHALBUMURL,searchString,LASTFMKEY,RETURNTYPE];
     NSString *urlConverted  = [theURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSLog(@"%@", urlConverted);
     return urlConverted;
+}
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"toAlbumSegue"])
+    {
+        AlbumViewController *destViewController = [segue destinationViewController];
+        
+        NSIndexPath *indexPath = nil;
+        
+        indexPath = [self.tableView indexPathForSelectedRow];
+        NSString *destinationTitle = [albumNames objectAtIndex:indexPath.row];
+        destViewController.albumName = destinationTitle;
+        destViewController.artistName = self.artistName;
+        
+        UIImage *destImage = [test objectForKey:destinationTitle];
+        destViewController.albumImage = destImage;
+        
+        // destViewController.albumImage =
+        [destViewController setTitle:destinationTitle];
+        destViewController.navigationItem.backBarButtonItem.title = @"back";
+    }
 }
 
 @end
