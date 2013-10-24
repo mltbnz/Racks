@@ -8,6 +8,8 @@
 
 #import "ArtistAlbumViewController.h"
 
+
+
 @interface ArtistAlbumViewController ()
 
 @end
@@ -19,16 +21,18 @@
     NSMutableData* jsonData;
     NSMutableDictionary* jsonDict;
     NSMutableArray* imagesArray;
-    
-    
-    NSMutableDictionary* test;
+    SDWebImageManager *manager;
+    SDImageCache *sharedImageCache;
+        
+//    NSMutableDictionary* test;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
+//        manager = [SDWebImageManager sharedManager];
+
     }
     return self;
 }
@@ -88,13 +92,37 @@
     
     NSString *url = [[[[albumImages objectAtIndex:indexPath.row] objectForKey:@"image"] objectAtIndex:2] objectForKey:@"#text"];
     NSURL *imageURL = [NSURL URLWithString:url];
-    NSLog(@"URL: %@", url);
+//    NSLog(@"URL: %@", url);
     
-    // WebImage Use
+    // WebImage
     [cell.imageView setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
     
+    
+/*
+    [manager downloadWithURL:imageURL
+                     options:0
+                    progress:^(NSUInteger receivedSize, long long expectedSize)
+     {
+         // progression tracking code
+     }
+        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished)
+     {
+         if (image != nil)
+         {             
+             NSString *localKey = [NSString stringWithFormat:@"Item-%@", albumName];
+             NSLog(@"%@", localKey);
+             [sharedImageCache storeImage:image forKey:localKey];
+             [cell.imageView setImageWithURL:imageURL];
+         }
+         else
+         {
+             cell.imageView.image = [UIImage imageNamed:@"placeholder.jpg"];
+             
+         }
+     }];
+    
 //    NSLog(@"Albumname: %@\n!", albumName);
-  /*
+
     UIImage *placeholderImage = [UIImage imageNamed:@"placeholder.jpg"];
     
     // QUEUE
@@ -147,12 +175,12 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-    NSLog(@"didReceiveResponse");
+//    NSLog(@"didReceiveResponse");
     // A response has been received, this is where we initialize the instance var you created
     // so that we can append data to it in the didReceiveData method
     // Furthermore, this method is called each time there is a redirect so reinitializing it
     // also serves to clear it
-    NSLog(@"Verbindung steht");
+//    NSLog(@"Verbindung steht");
     jsonData = [[NSMutableData alloc] init];
     albumNames = [[NSMutableArray alloc] init];
     albumImages = [[NSMutableArray alloc] init];
@@ -161,9 +189,9 @@
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     // Append the new data to the instance variable you declared
-    NSLog(@"Received %d bytes of data",[data length]);
+//    NSLog(@"Received %d bytes of data",[data length]);
     [jsonData appendData:data];
-    NSLog(@"Received %d bytes of totalData",[jsonData length]);
+//    NSLog(@"Received %d bytes of totalData",[jsonData length]);
 }
 
 - (NSCachedURLResponse *)connection:(NSURLConnection *)connection
@@ -175,7 +203,7 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    NSLog(@"connectionDidFinishLoading");
+    // NSLog(@"connectionDidFinishLoading");
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
@@ -189,7 +217,7 @@
     else
     {
         albumNames = [[[jsonDict objectForKey:@"topalbums"] objectForKey:@"album"] valueForKey:@"name"];
-        NSLog(@"Size albumNames: %i", [albumNames count]);
+//        NSLog(@"Size albumNames: %i", [albumNames count]);
         albumImages = [[jsonDict objectForKey:@"topalbums"] objectForKey:@"album"];
     }
     
@@ -215,7 +243,7 @@
 { 
     NSString *theURL        = [NSString stringWithFormat:@"%@%@%@%@",LASTFMSEARCHALBUMURL,searchString,LASTFMKEY,RETURNTYPE];
     NSString *urlConverted  = [theURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSLog(@"%@", urlConverted);
+//    NSLog(@"%@", urlConverted);
     return urlConverted;
 }
 
@@ -226,19 +254,21 @@
     {
         AlbumViewController *destViewController = [segue destinationViewController];
         
-        NSIndexPath *indexPath = nil;
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         
-        indexPath = [self.tableView indexPathForSelectedRow];
         NSString *destinationTitle = [albumNames objectAtIndex:indexPath.row];
         destViewController.albumName = destinationTitle;
         destViewController.artistName = self.artistName;
         
-        UIImage *destImage = [test objectForKey:destinationTitle];
+        UITableViewCell *selectedCell = [self.tableView cellForRowAtIndexPath:indexPath];
+        UIImage *destImage = selectedCell.imageView.image;
         destViewController.albumImage = destImage;
         
+        UIViewController *thisView = self;
+        destViewController.previousView = thisView;
         // destViewController.albumImage =
         [destViewController setTitle:destinationTitle];
-        destViewController.navigationItem.backBarButtonItem.title = @"back";
+//        destViewController.navigationItem.backBarButtonItem.title = @"back";
     }
 }
 

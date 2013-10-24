@@ -172,7 +172,7 @@
     // so that we can append data to it in the didReceiveData method
     // Furthermore, this method is called each time there is a redirect so reinitializing it
     // also serves to clear it
-    NSLog(@"Verbindung steht");
+//    NSLog(@"Verbindung steht");
     totalData = [[NSMutableData alloc] init];
     json = [[NSMutableArray alloc] init];
 }
@@ -180,9 +180,9 @@
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     // Append the new data to the instance variable you declared
-    NSLog(@"Received %d bytes of data",[data length]);
+//    NSLog(@"Received %d bytes of data",[data length]);
     [totalData appendData:data];
-    NSLog(@"Received %d bytes of totalData",[totalData length]);
+//    NSLog(@"Received %d bytes of totalData",[totalData length]);
 }
 
 - (NSCachedURLResponse *)connection:(NSURLConnection *)connection
@@ -201,7 +201,7 @@
     
     NSError* error;
     jsonDict = [NSJSONSerialization JSONObjectWithData:totalData options:0 error:&error];
-    NSLog(@"jsonDict size: %i", [jsonDict count]);
+//    NSLog(@"jsonDict size: %i", [jsonDict count]);
     
     
     if ([jsonDict count] == 0)
@@ -299,10 +299,9 @@
     {
         ArtistAlbumViewController *destViewController = [segue destinationViewController];
         
-        NSIndexPath *indexPath = nil;
-
-        indexPath = [self.tableView indexPathForSelectedRow];
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         NSString *destinationTitle = [artistSelectArray objectAtIndex:indexPath.row];
+        
         destViewController.artistName = destinationTitle;
         [destViewController setTitle:destinationTitle];
         destViewController.navigationItem.backBarButtonItem.title = @"back";
