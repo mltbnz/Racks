@@ -12,7 +12,12 @@
 #define ALBUM @"&album="
 
 #import <UIKit/UIKit.h>
+#import <CoreData/CoreData.h>
 #import "ArtistAlbumViewController.h"
+#import "Release.h"
+#import "Artist.h"
+#import "AppDelegate.h"
+#import "MusicViewController.h"
 
 @interface AlbumViewController : UIViewController<NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 
@@ -30,6 +35,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
 @property (weak, nonatomic) IBOutlet UILabel *releaseLabel;
 @property (weak, nonatomic) IBOutlet UILabel *labelLabel;
+@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender;
 

@@ -23,15 +23,12 @@
     NSMutableArray* imagesArray;
     SDWebImageManager *manager;
     SDImageCache *sharedImageCache;
-        
-//    NSMutableDictionary* test;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
-//        manager = [SDWebImageManager sharedManager];
 
     }
     return self;
@@ -43,6 +40,8 @@
         
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
+    [self.navigationItem.leftBarButtonItem setTitle:@"back"];
+    
     self.imageOperationQueue = [[NSOperationQueue alloc]init];
     self.imageOperationQueue.maxConcurrentOperationCount = 4;
     
@@ -51,9 +50,7 @@
     NSString* url = [self createUrl:self.artistName];
     NSURLRequest *request   = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     NSURLConnection *conn   = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    
-    // NSString *infoURL = [self createUrl:<#(NSString *)#>]
-    
+        
 }
 
 - (void)didReceiveMemoryWarning
@@ -83,16 +80,14 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                        reuseIdentifier:CellIdentifier];
     }
     NSString* albumName = [albumNames objectAtIndex:indexPath.row];
     
-    // UIImage *placeholderImage = [UIImage imageNamed:@"placeholder.jpg"];
     
     NSString *url = [[[[albumImages objectAtIndex:indexPath.row] objectForKey:@"image"] objectAtIndex:2] objectForKey:@"#text"];
     NSURL *imageURL = [NSURL URLWithString:url];
-//    NSLog(@"URL: %@", url);
     
     // WebImage
     [cell.imageView setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
@@ -149,6 +144,7 @@
 */
     cell.textLabel.text = albumName;
     cell.detailTextLabel.text = self.artistName;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
       
     return cell;
     
@@ -189,9 +185,7 @@
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     // Append the new data to the instance variable you declared
-//    NSLog(@"Received %d bytes of data",[data length]);
     [jsonData appendData:data];
-//    NSLog(@"Received %d bytes of totalData",[jsonData length]);
 }
 
 - (NSCachedURLResponse *)connection:(NSURLConnection *)connection
@@ -203,7 +197,6 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    // NSLog(@"connectionDidFinishLoading");
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
@@ -217,12 +210,9 @@
     else
     {
         albumNames = [[[jsonDict objectForKey:@"topalbums"] objectForKey:@"album"] valueForKey:@"name"];
-//        NSLog(@"Size albumNames: %i", [albumNames count]);
         albumImages = [[jsonDict objectForKey:@"topalbums"] objectForKey:@"album"];
     }
     
-    NSLog(@"%@", [albumImages objectAtIndex:0]);
-
     [self.tableView reloadData];
 }
 
@@ -243,7 +233,6 @@
 { 
     NSString *theURL        = [NSString stringWithFormat:@"%@%@%@%@",LASTFMSEARCHALBUMURL,searchString,LASTFMKEY,RETURNTYPE];
     NSString *urlConverted  = [theURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-//    NSLog(@"%@", urlConverted);
     return urlConverted;
 }
 
@@ -266,9 +255,7 @@
         
         UIViewController *thisView = self;
         destViewController.previousView = thisView;
-        // destViewController.albumImage =
         [destViewController setTitle:destinationTitle];
-//        destViewController.navigationItem.backBarButtonItem.title = @"back";
     }
 }
 

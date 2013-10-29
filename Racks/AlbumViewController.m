@@ -35,16 +35,18 @@
     [super viewDidLoad];
     
     // NavBar add Button Function
+    UIImage *buttonImg = [UIImage imageNamed:@"button.png"];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(0, 0, 55, 35);
-    [button setTitle:@"back" forState:UIControlStateNormal];
+    button.frame = CGRectMake(0, 0, buttonImg.size.width, buttonImg.size.height);
+    [button setTitle:@"Cancel" forState:UIControlStateNormal];
     [button addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [button setImage:buttonImg forState:UIControlStateNormal];
     UIBarButtonItem *customBarItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     
 //    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(backButtonAction:)];
 //    self.navigationItem.leftBarButtonItem = backButton;
     self.navBar.topItem.leftBarButtonItem = customBarItem;
-    self.navBar.topItem.title = [NSString stringWithFormat:@"%@ - %@", self.artistName, self.albumName];
+    self.navBar.topItem.title = [NSString stringWithFormat:@"%@", self.albumName];
     
     // check if image was passed by View
     if (self.albumImage != nil)
@@ -68,9 +70,13 @@
     NSString* url = [NSString stringWithFormat:@"%@%@%@%@%@%@%@",LASTFMALBUMINFOURL,LASTFMKEY,ARTIST,self.artistName,ALBUM,self.albumName,RETURNTYPE];
     NSString *urlConverted = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
-    NSLog(@"%@",urlConverted);
+//    NSLog(@"%@",urlConverted);
     NSURLRequest *request   = [NSURLRequest requestWithURL:[NSURL URLWithString:urlConverted]];
     NSURLConnection *conn   = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    
+    // CoreData
+    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+    self.managedObjectContext = appDelegate.managedObjectContext;
 }
 
 - (void)didReceiveMemoryWarning
@@ -124,20 +130,25 @@
     else
     {
         albumRelease = [[jsonDict objectForKey:@"album"] valueForKey:@"releasedate"];
-        self.releaseLabel.text = albumRelease;
+        if (albumRelease.length == 0) {
+            self.releaseLabel.text = @"No date available";
+        } else {
+            self.releaseLabel.text = albumRelease;
+        }
+        
         albumSummary = [[[jsonDict objectForKey:@"album"] objectForKey:@"wiki"] valueForKey:@"content"];
+        if (albumSummary.length == 0)
+        {
+            self.desTextField.text = @"No description available";
+        }
+        else
+        {
         self.desTextField.text = albumSummary;
-//        albumNames = [[[jsonDict objectForKey:@"topalbums"] objectForKey:@"album"] valueForKey:@"name"];
-//        NSLog(@"Size albumNames: %i", [albumNames count]);
-//        albumImages = [[jsonDict objectForKey:@"topalbums"] objectForKey:@"album"];
+        }
     }
     
-//    NSLog(@"%@", [albumImages objectAtIndex:0]);
-    
-//    [self.tableView reloadData];
-}
 
-# pragma  mark - Functions
+}
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
@@ -149,13 +160,57 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
+# pragma  mark - Functions
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"backToArtistAlbumVC"])
+    {
+//        ArtistAlbumViewController *destViewController = [segue destinationViewController];
+//        MusicViewController *destViewController = [segue destinationViewController];
+//        destViewController = (MusicViewController*) self.previousView;
+    }
+}
+
 - (IBAction)backButtonAction:(id)sender
 {
     // NSLog(@"TEST2");
-    [self.navigationController popToViewController:self.previousView animated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
+//    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
 //    [self performSegueWithIdentifier:@"backToArtistAlbumVC" sender:self];
 }
 
+#pragma mark - CoreData Functions
+
+- (IBAction)addRecord:(id)sender
+{
+    // Adds the content of this view to the CoreData DB
+    Artist *artist = [NSEntityDescription insertNewObjectForEntityForName:@"Artist" inManagedObjectContext:self.managedObjectContext];
+    artist.name = self.artistName;
+    //
+    Release *release = [NSEntityDescription insertNewObjectForEntityForName:@"Release" inManagedObjectContext:self.managedObjectContext];
+    //
+    release.name = self.albumName;
+    NSData *imageData = UIImagePNGRepresentation(self.albumImage);
+    release.picture = imageData;
+    release.releaseDate = albumRelease;
+    release.text = albumSummary;
+    //
+    artist.released = [NSSet setWithObject:release];
+    //
+    NSError *error;
+    if (![self.managedObjectContext save:&error]) {
+        NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+    }
+    //
+    self.albumTextField.text = @"";
+    self.artistTextField.text = @"";
+    self.desTextField.text = @"";
+    self.releaseLabel.text = @"";
+    //
+    // [self.view endEditing:YES];
+    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+}
 
 
 

@@ -43,7 +43,7 @@
 //    int sec = 1000;
 //    wait(&sec);
     
-    self.tableView.contentOffset = CGPointMake(0.0, self.searchBar.frame.size.height);
+//    self.tableView.contentOffset = CGPointMake(0.0, self.searchBar.frame.size.height);
     
     
     // testArray = [[NSMutableArray alloc] initWithObjects:@"Malte", nil];
@@ -86,10 +86,11 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     // Configure the cell...
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.text = [artistSelectArray objectAtIndex:indexPath.row];
 
     return cell;
-    [self.tableView reloadData];
+//    [self.tableView reloadData];
     // [self.searchDisplayController.searchResultsTableView reloadData];
 }
 
@@ -257,7 +258,7 @@
     // NSURL* url;
     NSString *theURL        = [NSString stringWithFormat:@"%@%@%@%@",LASTFMSEARCHARTISTURL,searchString,LASTFMKEY,RETURNTYPE];
     NSString *urlConverted  = [theURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSLog(@"%@", urlConverted);
+//    NSLog(@"%@", urlConverted);
     return urlConverted;
 }
 

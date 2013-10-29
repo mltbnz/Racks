@@ -2,7 +2,7 @@
 //  Artist.h
 //  Racks
 //
-//  Created by Mercedes Bünz on 06.06.13.
+//  Created by Mercedes Bünz on 28.10.13.
 //  Copyright (c) 2013 Malte Bünz. All rights reserved.
 //
 
@@ -15,8 +15,7 @@
 
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * wikiLink;
-@property (nonatomic, retain) NSArray *released;
-
+@property (nonatomic, retain) NSSet *released;
 @end
 
 @interface Artist (CoreDataGeneratedAccessors)
@@ -26,5 +25,4 @@
 - (void)addReleased:(NSSet *)values;
 - (void)removeReleased:(NSSet *)values;
 
- 
 @end

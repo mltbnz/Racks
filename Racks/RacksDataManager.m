@@ -52,7 +52,7 @@
 {
     [self.dbDocument saveToURL:self.dbDocument.fileURL forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success) {
         if (success) {
-            NSLog(@"Jawoll");
+//            NSLog(@"Jawoll");
         }
     }];
 }

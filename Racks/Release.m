@@ -2,7 +2,7 @@
 //  Release.m
 //  Racks
 //
-//  Created by Mercedes Bünz on 06.06.13.
+//  Created by Mercedes Bünz on 28.10.13.
 //  Copyright (c) 2013 Malte Bünz. All rights reserved.
 //
 
@@ -16,6 +16,27 @@
 @dynamic name;
 @dynamic picture;
 @dynamic releaseDate;
-@dynamic by;
+@dynamic text;
+@dynamic releasedBy;
+
++ (BOOL)allowsReverseTransformation {
+	return YES;
+}
+
++ (Class)transformedValueClass {
+	return [NSData class];
+}
+
+
+- (id)transformedValue:(id)value {
+	NSData *data = UIImagePNGRepresentation(value);
+	return data;
+}
+
+
+- (id)reverseTransformedValue:(id)value {
+	UIImage *uiImage = [[UIImage alloc] initWithData:value];
+//	return [uiImage autorelease];
+}
 
 @end
