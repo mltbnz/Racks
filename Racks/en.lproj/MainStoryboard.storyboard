@@ -157,9 +157,9 @@
         <!--Music View Controller - Music-->
         <scene sceneID="Ig0-Pt-ruu">
             <objects>
-                <tableViewController id="92R-gy-sYj" customClass="MusicViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="MusicVc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="92R-gy-sYj" customClass="MusicViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="h3c-oZ-DPj">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <searchBar key="tableHeaderView" contentMode="redraw" barStyle="blackOpaque" placeholder="search in your library" id="BfE-zI-1DJ">
@@ -215,7 +215,7 @@
             <objects>
                 <tableViewController id="Izo-Tb-gaA" customClass="SearchMusicViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="nxf-Jx-awo">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <searchBar key="tableHeaderView" contentMode="redraw" barStyle="blackOpaque" showsCancelButton="YES" id="DzI-EP-cfJ">
@@ -413,6 +413,7 @@
                         <outlet property="releaseLabel" destination="ohu-2S-HXu" id="h4l-nW-YIU"/>
                         <outlet property="saveButton" destination="3R8-gM-qRd" id="gBm-cW-ad4"/>
                         <segue destination="SiB-KT-WaU" kind="modal" identifier="backToArtistAlbumVC" modalTransitionStyle="flipHorizontal" id="Yc3-Wm-wYq"/>
+                        <segue destination="92R-gy-sYj" kind="push" identifier="backToMusic" id="2e4-4b-fMF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuH-nK-Fhz" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -477,7 +478,7 @@
             <objects>
                 <viewController id="7yQ-iH-yqV" customClass="ScanViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mdc-CB-Hk2">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -485,7 +486,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JTy-Tq-ocd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2228" y="-688"/>
+            <point key="canvasLocation" x="2280" y="-644"/>
         </scene>
         <!--Books View Controller - Books-->
         <scene sceneID="lfw-dd-P8n">
@@ -539,7 +540,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M0x-7W-WVK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1689" y="-432"/>
+            <point key="canvasLocation" x="1753" y="-344"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="EFf-t5-GuI">
@@ -693,87 +694,15 @@
         <image name="book.png" width="262" height="205"/>
         <image name="games.png" width="152" height="257"/>
     </resources>
-    <classes>
-        <class className="AlbumViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AlbumViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="addRecord:"/>
-                <relationship kind="action" name="backButtonAction:"/>
-                <relationship kind="outlet" name="albumTextField" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="artistTextField" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="backButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="desTextField" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="labelLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="navBar" candidateClass="UINavigationBar"/>
-                <relationship kind="outlet" name="releaseLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="saveButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="ArtistAlbumViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ArtistAlbumViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="BooksViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/BooksViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="addBooksButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="booksTable" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="GamesViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/GamesViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="addGamesButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="gamesTable" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="MusicViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MusicViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="scanButtonAction:"/>
-                <relationship kind="action" name="searchButtonAction:"/>
-                <relationship kind="outlet" name="musicTable" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="scanMusicButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
-                <relationship kind="outlet" name="searchButton" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="ScanViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ScanViewController.h"/>
-        </class>
-        <class className="SearchMusicViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SearchMusicViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="ViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="booksIcon" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="booksLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="gamesIcon" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="gamesLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="musicIcon" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="musicLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="6s2-7Q-dSR"/>
-        <segue reference="v6K-VO-3Uw"/>
         <segue reference="Yc3-Wm-wYq"/>
+        <segue reference="2e4-4b-fMF"/>
+        <segue reference="v6K-VO-3Uw"/>
+        <segue reference="6s2-7Q-dSR"/>
     </inferredMetricsTieBreakers>
 </document>

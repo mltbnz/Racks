@@ -70,7 +70,17 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [albumNames count];
+    if ([albumNames count] > 0) {
+        return [albumNames count];
+    }
+    else
+    {
+        return 1;
+        UIAlertView *errorView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"The Data could not be fetched." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+//        NSLog(@"ERROR: %@", error);
+        [errorView show];
+    }
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -87,7 +97,7 @@
     
     
     NSString *url = [[[[albumImages objectAtIndex:indexPath.row] objectForKey:@"image"] objectAtIndex:2] objectForKey:@"#text"];
-    NSURL *imageURL = [NSURL URLWithString:url];
+//    NSURL *imageURL = [NSURL URLWithString:url];
     
     // WebImage
     [cell.imageView setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
@@ -155,14 +165,8 @@
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // NSLog(@"didSelectRowAtIndexPath");
-    // Navigation logic may go here. Create and push another view controller.
-     // ...
-     // Pass the selected object to the new view controller.
-    // [self.navigationController performSegueWithIdentifier:@"toAlbumSegue" sender:self];
-    
-    AlbumViewController *albumViewController = [[AlbumViewController alloc] init];
+{   
+    // AlbumViewController *albumViewController = [[AlbumViewController alloc] init];
     
     [self performSegueWithIdentifier:@"toAlbumSegue" sender:self];
 }
@@ -171,12 +175,6 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-//    NSLog(@"didReceiveResponse");
-    // A response has been received, this is where we initialize the instance var you created
-    // so that we can append data to it in the didReceiveData method
-    // Furthermore, this method is called each time there is a redirect so reinitializing it
-    // also serves to clear it
-//    NSLog(@"Verbindung steht");
     jsonData = [[NSMutableData alloc] init];
     albumNames = [[NSMutableArray alloc] init];
     albumImages = [[NSMutableArray alloc] init];
@@ -252,9 +250,11 @@
         UITableViewCell *selectedCell = [self.tableView cellForRowAtIndexPath:indexPath];
         UIImage *destImage = selectedCell.imageView.image;
         destViewController.albumImage = destImage;
-        
-        UIViewController *thisView = self;
-        destViewController.previousView = thisView;
+
+        UINavigationController *thisNavController = self.navigationController;
+        destViewController.navController = thisNavController;
+//        UIViewController *thisView = self;
+//        destViewController.previousView = thisView;
         [destViewController setTitle:destinationTitle];
     }
 }

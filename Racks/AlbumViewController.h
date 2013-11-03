@@ -18,14 +18,17 @@
 #import "Artist.h"
 #import "AppDelegate.h"
 #import "MusicViewController.h"
+#import "Singleton.h"
 
 @interface AlbumViewController : UIViewController<NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 
 @property NSString *artistName;
 @property NSString *albumName;
 @property UIImage *albumImage;
+//
 @property UIViewController *previousView;
-
+@property UINavigationController *navController;
+//
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UITextView *artistTextField;
 @property (weak, nonatomic) IBOutlet UITextView *albumTextField;
@@ -35,8 +38,11 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
 @property (weak, nonatomic) IBOutlet UILabel *releaseLabel;
 @property (weak, nonatomic) IBOutlet UILabel *labelLabel;
+//
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
-
+@property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, retain) NSArray *fetchedResultsArray;
+//////////
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender;
 
 @end

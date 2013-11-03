@@ -71,6 +71,7 @@
 		E079B7C617786328004EAB5A /* 131-tower.png in Resources */ = {isa = PBXBuildFile; fileRef = E079B7C517786328004EAB5A /* 131-tower.png */; };
 		E095516217E37CFC00EC20C6 /* ArtistAlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E095516117E37CFC00EC20C6 /* ArtistAlbumViewController.m */; };
 		E09924881812CA3300FF5499 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E09924871812CA3300FF5499 /* ImageIO.framework */; };
+		E09FC7FF182309F8003CFE01 /* Singleton.m in Sources */ = {isa = PBXBuildFile; fileRef = E09FC7FE182309F8003CFE01 /* Singleton.m */; };
 		E0CE5EEA175F5C570078B4A5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0CE5EE9175F5C570078B4A5 /* UIKit.framework */; };
 		E0CE5EEC175F5C570078B4A5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0CE5EEB175F5C570078B4A5 /* Foundation.framework */; };
 		E0CE5EEE175F5C570078B4A5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0CE5EED175F5C570078B4A5 /* CoreGraphics.framework */; };
@@ -142,6 +143,8 @@
 		E095516017E37CFC00EC20C6 /* ArtistAlbumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtistAlbumViewController.h; sourceTree = "<group>"; };
 		E095516117E37CFC00EC20C6 /* ArtistAlbumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArtistAlbumViewController.m; sourceTree = "<group>"; };
 		E09924871812CA3300FF5499 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		E09FC7FD182309F8003CFE01 /* Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Singleton.h; sourceTree = "<group>"; };
+		E09FC7FE182309F8003CFE01 /* Singleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Singleton.m; sourceTree = "<group>"; };
 		E0CE5EE6175F5C570078B4A5 /* Racks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Racks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0CE5EE9175F5C570078B4A5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E0CE5EEB175F5C570078B4A5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -331,6 +334,8 @@
 		E0CE5F19175F72F60078B4A5 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				E09FC7FD182309F8003CFE01 /* Singleton.h */,
+				E09FC7FE182309F8003CFE01 /* Singleton.m */,
 				E0CE5EF8175F5C570078B4A5 /* AppDelegate.h */,
 				E0CE5EF9175F5C570078B4A5 /* AppDelegate.m */,
 				E0E595571760EC1100CD9C3A /* Racks.xcdatamodeld */,
@@ -541,6 +546,7 @@
 				E0DB0C4A181EC66100C86242 /* Artist.m in Sources */,
 				E0DB0C53181EC85800C86242 /* Release.m in Sources */,
 				E0DB0C561820276100C86242 /* MusicDetialViewController.m in Sources */,
+				E09FC7FF182309F8003CFE01 /* Singleton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

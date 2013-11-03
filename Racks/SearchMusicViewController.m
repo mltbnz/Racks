@@ -36,6 +36,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.tableView.contentOffset = CGPointMake(0.0, self.searchBar.frame.size.height);
     
     self.searchBar.showsScopeBar = NO;
     self.searchBar.showsCancelButton = YES;
@@ -52,6 +53,23 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    [UIView animateWithDuration: 0.3
+                          delay: 0.1
+                        options: UIViewAnimationOptionCurveEaseOut
+                     animations:
+                    ^{
+                        self.tableView.contentOffset = CGPointMake(0.0, 0.0);
+                        
+                     }
+                     completion:^(BOOL finished)
+                    {
+                        [self.searchBar becomeFirstResponder];
+//                        NSLog(@"Done!");
+                    }];
 }
 
 - (void)didReceiveMemoryWarning
@@ -71,8 +89,13 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    // NSLog(@"artistSelectArray array size: %i", [artistSelectArray count]);
-    return [artistSelectArray count];
+    if ([artistSelectArray count] != 0) {
+        return [artistSelectArray count];
+    } else {
+        return 1;
+        [self.navigationController popToRootViewControllerAnimated:NO];
+    }
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -90,8 +113,6 @@
     cell.textLabel.text = [artistSelectArray objectAtIndex:indexPath.row];
 
     return cell;
-//    [self.tableView reloadData];
-    // [self.searchDisplayController.searchResultsTableView reloadData];
 }
 
 #pragma mark - Table view delegate
@@ -106,13 +127,12 @@
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    [artistSelectArray removeAllObjects];
-    [json removeAllObjects];
-    [jsonDict removeAllObjects];
-    [self.tableView reloadData];
+//    [artistSelectArray removeAllObjects];
+//    [json removeAllObjects];
+//    [jsonDict removeAllObjects];
+//    [self.tableView reloadData];
     
     NSString* searchString = self.searchBar.text;
-    //    NSLog(@"%@", searchString);
     //
     if (self.searchBar.text.length == 0) {
         isFiltered = NO;
@@ -136,7 +156,6 @@
          */
     }
     [self.searchBar resignFirstResponder];
-    // [self.searchDisplayController.searchResultsTableView reloadData];
     [self.tableView reloadData];
     
 }
@@ -153,13 +172,11 @@
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
-    //    NSLog(@"Editing");
 
 }
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
-    // [self.searchDisplayController.searchResultsTableView reloadData];
     [self.tableView reloadData];
     // Eingabe Test
 
@@ -173,7 +190,6 @@
     // so that we can append data to it in the didReceiveData method
     // Furthermore, this method is called each time there is a redirect so reinitializing it
     // also serves to clear it
-//    NSLog(@"Verbindung steht");
     totalData = [[NSMutableData alloc] init];
     json = [[NSMutableArray alloc] init];
 }
@@ -181,9 +197,7 @@
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     // Append the new data to the instance variable you declared
-//    NSLog(@"Received %d bytes of data",[data length]);
     [totalData appendData:data];
-//    NSLog(@"Received %d bytes of totalData",[totalData length]);
 }
 
 - (NSCachedURLResponse *)connection:(NSURLConnection *)connection
@@ -197,13 +211,10 @@
 {
     // The request is complete and data has been received
     // You can parse the stuff in your instance variable now
-    // NSLog(@"Succeeded! Received %d bytes of data", artistSelectArray.count);
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
     NSError* error;
-    jsonDict = [NSJSONSerialization JSONObjectWithData:totalData options:0 error:&error];
-//    NSLog(@"jsonDict size: %i", [jsonDict count]);
-    
+    jsonDict = [NSJSONSerialization JSONObjectWithData:totalData options:0 error:&error];   
     
     if ([jsonDict count] == 0)
     {
@@ -213,10 +224,7 @@
     {
         artistSelectArray = [[[[jsonDict objectForKey:@"results"] objectForKey:@"artistmatches"] objectForKey:@"artist"] valueForKey:@"name"];
     }
-    
-    // NSLog(@"Succeeded! Received %d bytes of data", [artistSelectArray count]);
     [self.tableView reloadData];
-    // NSMutableArray *artistSelectArray = [self :totalData];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -252,13 +260,8 @@
 
 - (NSString*) createUrl:(NSString*) searchString
 {
-    // Activity Indicator
-    // [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-
-    // NSURL* url;
     NSString *theURL        = [NSString stringWithFormat:@"%@%@%@%@",LASTFMSEARCHARTISTURL,searchString,LASTFMKEY,RETURNTYPE];
     NSString *urlConverted  = [theURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-//    NSLog(@"%@", urlConverted);
     return urlConverted;
 }
 

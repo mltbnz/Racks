@@ -11,6 +11,7 @@
 #import "ScanViewController.h"
 #import "Release.h"
 #import "AppDelegate.h"
+#import "Singleton.h"
 
 @interface MusicViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate, UINavigationControllerDelegate>;
 
@@ -19,7 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *scanMusicButton;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) UIView *MusicViewController;
-@property (nonatomic,strong) NSArray* fetchedRecordsArray;
+@property (nonatomic,strong) NSMutableArray* fetchedRecordsArray;
 
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;

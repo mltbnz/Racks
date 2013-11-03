@@ -27,7 +27,7 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 - (NSString*) createUrl:(NSString*) searchString;
-- (NSMutableArray*) fetchedData:(NSData*)responseData;
+//- (NSMutableArray*) fetchedData:(NSData*)responseData;
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender;
 
 @end

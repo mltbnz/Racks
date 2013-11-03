@@ -15,6 +15,9 @@
 @end
 
 @implementation MusicViewController
+{
+    BOOL didAppear;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -29,11 +32,14 @@
 {
     [super viewDidLoad];
     //
+    didAppear = FALSE;
     // Core Data Stuff
     AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
     
     // Fetching Records and saving it in "fetchedRecordsArray" object
     self.fetchedRecordsArray = [appDelegate getAllRecordsFromDB];
+    Singleton *singleton = [Singleton getData];
+    [singleton setFetchedCoreDataResults:self.fetchedRecordsArray];
     [self.tableView reloadData];
     
     // Button Stuff
@@ -43,16 +49,15 @@
     self.navigationItem.rightBarButtonItems = buttonsArray;
     self.musicTable.contentOffset = CGPointMake(0.0, self.searchBar.frame.size.height);
     //
-    //    self.navigationItem.leftBarButtonItem = self.editButtonItem;
-//    NSSortDescriptor *sortParam= [NSSortDescriptor sortDescriptorWithKey:@"Artist" ascending:YES];
-//
-//    NSArray *sortDescriptors = [NSArray arrayWithObject:sortParam];
-//    NSArray *sortedArray = [self.fetchedRecordsArray sortedArrayUsingDescriptors:sortDescriptors];
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    [self.tableView reloadData];
+    if (didAppear) {
+        [self.tableView reloadData];
+        didAppear = TRUE;
+    }
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -163,15 +168,11 @@
 
 - (IBAction)scanButtonAction:(id)sender
 {
-    // sNSLog(@"TEST1");
-    //    ScanViewController *scanView = [[ScanViewController alloc] init];
-    //    [self presentViewController:scanView animated:YES completion:NULL];
     [self performSegueWithIdentifier:@"scanSegue" sender:self];
 }
 
 - (IBAction)searchButtonAction:(id)sender
 {
-    // NSLog(@"TEST2");
     [self performSegueWithIdentifier:@"searchSegue" sender:self];
 }
 
@@ -181,9 +182,11 @@
 {
     if ([[segue identifier] isEqualToString:@"searchSegue"])
     {
-        
-    } else if ([[segue identifier] isEqualToString:@"scanSegue"]) {
-        
+        didAppear = FALSE;
+    }
+    else if ([[segue identifier] isEqualToString:@"scanSegue"])
+    {
+        didAppear = FALSE;
     }
 }
 

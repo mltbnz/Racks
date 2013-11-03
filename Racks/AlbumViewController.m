@@ -5,6 +5,14 @@
 //  Created by Mercedes Bünz on 17.10.13.
 //  Copyright (c) 2013 Malte Bünz. All rights reserved.
 //
+//@class AlbumViewController;
+//
+//@protocol AlbumViewControllerDelegate <NSObject>
+//
+//- (void)getArrayFromMusicVC:(AlbumViewController *)albumViewController;
+//
+//@end
+
 
 #import "AlbumViewController.h"
 
@@ -20,6 +28,9 @@
     NSString *albumRelease;
     NSString *albumLabel;
 }
+
+@synthesize fetchedResultsController;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -130,9 +141,11 @@
     else
     {
         albumRelease = [[jsonDict objectForKey:@"album"] valueForKey:@"releasedate"];
-        if (albumRelease.length == 0) {
+        if (albumRelease.length == 0 || albumRelease.length < 7) {
             self.releaseLabel.text = @"No date available";
         } else {
+            NSLog(@"Content: %@ / Length: %i", albumRelease, [albumRelease length]);
+            albumRelease = [albumRelease substringToIndex:[albumRelease length] -7];
             self.releaseLabel.text = albumRelease;
         }
         
@@ -166,9 +179,11 @@
 {
     if ([segue.identifier isEqualToString:@"backToArtistAlbumVC"])
     {
-//        ArtistAlbumViewController *destViewController = [segue destinationViewController];
-//        MusicViewController *destViewController = [segue destinationViewController];
-//        destViewController = (MusicViewController*) self.previousView;
+        
+    }
+    else if ([[segue identifier] isEqualToString:@"backToMusic"])
+    {
+        
     }
 }
 
@@ -184,11 +199,34 @@
 
 - (IBAction)addRecord:(id)sender
 {
+    
+    NSLog(@"saveArtistInformation");
+    
+    // search to see if entity already exists
+    NSError *error = nil;
+    //
     // Adds the content of this view to the CoreData DB
     Artist *artist = [NSEntityDescription insertNewObjectForEntityForName:@"Artist" inManagedObjectContext:self.managedObjectContext];
     artist.name = self.artistName;
     //
-    Release *release = [NSEntityDescription insertNewObjectForEntityForName:@"Release" inManagedObjectContext:self.managedObjectContext];
+    Release *release = [[Release alloc] init];
+    release.name = self.albumName;
+    NSData *imageData = UIImagePNGRepresentation(self.albumImage);
+    release.picture = imageData;
+    release.releaseDate = albumRelease;
+    release.text = albumSummary;
+    
+//    Release *release = [NSEntityDescription insertNewObjectForEntityForName:@"Release" inManagedObjectContext:self.managedObjectContext];
+    // We use an NSPredicate combined with the fetchedResultsController to perform the search
+    NSMutableArray *results = [Singleton ];
+    for (int count = 0; count < [ count]; count++) {
+        if (self.albumName != ) {
+            <#statements#>
+        }
+    }
+    
+    /*
+
     //
     release.name = self.albumName;
     NSData *imageData = UIImagePNGRepresentation(self.albumImage);
@@ -208,11 +246,23 @@
     self.desTextField.text = @"";
     self.releaseLabel.text = @"";
     //
-    // [self.view endEditing:YES];
-    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+//    [self.view.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+    [self backToMusicVC];
+    */
 }
 
-
+- (void)backToMusicVC
+{
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:^(void)
+     {
+         // Block
+         UIAlertView *sucessView = [[UIAlertView alloc] initWithTitle:@"Success" message:[NSString stringWithFormat:@"%@ - %@ added to your library", self.artistName, self.albumName] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//         NSLog(@"ERROR: %@", error);
+         [sucessView show];
+//         [self.navController pushViewController:[self.navController.viewControllers objectAtIndex:1] animated:YES];
+//         [self.navController popToViewController:[self.navController.viewControllers objectAtIndex:0] animated:YES];
+     }];
+}
 
 
 @end
