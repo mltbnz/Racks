@@ -12,9 +12,6 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *musicIcon;
 @property (weak, nonatomic) IBOutlet UILabel *musicLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *gamesIcon;
-@property (weak, nonatomic) IBOutlet UILabel *gamesLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *booksIcon;
-@property (weak, nonatomic) IBOutlet UILabel *booksLabel;
+
 
 @end

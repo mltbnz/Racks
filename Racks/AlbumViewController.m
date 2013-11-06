@@ -35,8 +35,22 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    if (self)
+    {
+        
+    }
+    return self;
+}
+
+- (id)initWithAlbumname:(NSString*)passAlbumName AndArtistName:(NSString*)passArtistName AndReleaseDate:(NSString*)passReleaseDate AndLabelName:(NSString*)passLabelName AndImageAdress:(NSString*)passImageUrl
+{
+    if (self = [super init])
+    {
+        passAlbumName = albumName;
+        passArtistName = artistName;
+        passReleaseDate = releaseDate;
+        passLabelName = labelName;
+        passImageUrl = imageUrl;
     }
     return self;
 }
@@ -54,8 +68,7 @@
     [button setImage:buttonImg forState:UIControlStateNormal];
     UIBarButtonItem *customBarItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     
-//    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(backButtonAction:)];
-//    self.navigationItem.leftBarButtonItem = backButton;
+    //    self.navigationItem.leftBarButtonItem = backButton;
     self.navBar.topItem.leftBarButtonItem = customBarItem;
     self.navBar.topItem.title = [NSString stringWithFormat:@"%@", self.albumName];
     
@@ -72,18 +85,39 @@
         [self.imageView sizeToFit];
     }
     
-    // Set properties
-    self.artistTextField.text = self.artistName;
-    self.albumTextField.text = self.albumName;
+    // Set TextField properties 
+    if (self.artistName)
+    {
+//        NSLog(@"%@", self.artistName);
+        self.artistTextField.text = self.artistName;
+    }
+    else
+    {
+        self.artistTextField.text = @"Malte";
+    }
     
-    // Load albuminfo
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    NSString* url = [NSString stringWithFormat:@"%@%@%@%@%@%@%@",LASTFMALBUMINFOURL,LASTFMKEY,ARTIST,self.artistName,ALBUM,self.albumName,RETURNTYPE];
-    NSString *urlConverted = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    if (self.albumName)
+    {
+//        NSLog(@"%@", self.albumName);
+        self.albumTextField.text = self.albumName;
+    }
+    else
+    {
+        self.albumTextField.text = @"Malte";
+    }
     
-//    NSLog(@"%@",urlConverted);
-    NSURLRequest *request   = [NSURLRequest requestWithURL:[NSURL URLWithString:urlConverted]];
-    NSURLConnection *conn   = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    
+    //
+    // Decide if it is a scan or a search via BOOL isScan
+    //
+    if (!self.isScan)
+    {
+        [self loadInfoFromSearch];
+    }
+    else
+    {
+        [self loadInfoFromScan];
+    }
     
     // CoreData
     AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
@@ -100,14 +134,14 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-//    NSLog(@"didReceiveResponse");
+    //    NSLog(@"didReceiveResponse");
     // A response has been received, this is where we initialize the instance var you created
     // so that we can append data to it in the didReceiveData method
     // Furthermore, this method is called each time there is a redirect so reinitializing it
     // also serves to clear it
-//    NSLog(@"Verbindung steht");
+    //    NSLog(@"Verbindung steht");
     jsonData = [[NSMutableData alloc] init];
-
+    
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
@@ -140,13 +174,16 @@
     }
     else
     {
-        albumRelease = [[jsonDict objectForKey:@"album"] valueForKey:@"releasedate"];
-        if (albumRelease.length == 0 || albumRelease.length < 7) {
+        self.releaseDate = [[jsonDict objectForKey:@"album"] valueForKey:@"releasedate"];
+        if (self.releaseDate.length == 0 || self.releaseDate.length < 7)
+        {
             self.releaseLabel.text = @"No date available";
-        } else {
-            NSLog(@"Content: %@ / Length: %i", albumRelease, [albumRelease length]);
-            albumRelease = [albumRelease substringToIndex:[albumRelease length] -7];
-            self.releaseLabel.text = albumRelease;
+        }
+        else
+        {
+            // NSLog(@"Content: %@ / Length: %i", self.releaseDate, [self.releaseDate length]);
+            self.releaseDate = [self.releaseDate substringToIndex:[self.releaseDate length] -7];
+            self.releaseLabel.text = self.releaseDate;
         }
         
         albumSummary = [[[jsonDict objectForKey:@"album"] objectForKey:@"wiki"] valueForKey:@"content"];
@@ -156,11 +193,11 @@
         }
         else
         {
-        self.desTextField.text = albumSummary;
+            self.desTextField.text = albumSummary;
         }
     }
     
-
+    
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -191,17 +228,15 @@
 {
     // NSLog(@"TEST2");
     [self dismissViewControllerAnimated:YES completion:nil];
-//    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
-//    [self performSegueWithIdentifier:@"backToArtistAlbumVC" sender:self];
+    //    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+    //    [self performSegueWithIdentifier:@"backToArtistAlbumVC" sender:self];
 }
 
 #pragma mark - CoreData Functions
 
 - (IBAction)addRecord:(id)sender
 {
-    
-    NSLog(@"saveArtistInformation");
-    
+    // NSLog(@"saveArtistInformation");
     // search to see if entity already exists
     NSError *error = nil;
     //
@@ -209,34 +244,15 @@
     Artist *artist = [NSEntityDescription insertNewObjectForEntityForName:@"Artist" inManagedObjectContext:self.managedObjectContext];
     artist.name = self.artistName;
     //
-    Release *release = [[Release alloc] init];
+    Release *release = [NSEntityDescription insertNewObjectForEntityForName:@"Release" inManagedObjectContext:self.managedObjectContext];
     release.name = self.albumName;
-    NSData *imageData = UIImagePNGRepresentation(self.albumImage);
-    release.picture = imageData;
-    release.releaseDate = albumRelease;
-    release.text = albumSummary;
-    
-//    Release *release = [NSEntityDescription insertNewObjectForEntityForName:@"Release" inManagedObjectContext:self.managedObjectContext];
-    // We use an NSPredicate combined with the fetchedResultsController to perform the search
-    NSMutableArray *results = [Singleton ];
-    for (int count = 0; count < [ count]; count++) {
-        if (self.albumName != ) {
-            <#statements#>
-        }
-    }
-    
-    /*
-
-    //
-    release.name = self.albumName;
-    NSData *imageData = UIImagePNGRepresentation(self.albumImage);
-    release.picture = imageData;
-    release.releaseDate = albumRelease;
+    release.picture = [self resizeImageAndTransformToNsdata:self.imageView.image];
+    release.releaseDate = self.releaseDate;
+    release.label = self.labelName;
     release.text = albumSummary;
     //
     artist.released = [NSSet setWithObject:release];
     //
-    NSError *error;
     if (![self.managedObjectContext save:&error]) {
         NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
     }
@@ -246,9 +262,8 @@
     self.desTextField.text = @"";
     self.releaseLabel.text = @"";
     //
-//    [self.view.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+    //    [self.view.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
     [self backToMusicVC];
-    */
 }
 
 - (void)backToMusicVC
@@ -257,11 +272,70 @@
      {
          // Block
          UIAlertView *sucessView = [[UIAlertView alloc] initWithTitle:@"Success" message:[NSString stringWithFormat:@"%@ - %@ added to your library", self.artistName, self.albumName] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//         NSLog(@"ERROR: %@", error);
+         //         NSLog(@"ERROR: %@", error);
          [sucessView show];
-//         [self.navController pushViewController:[self.navController.viewControllers objectAtIndex:1] animated:YES];
-//         [self.navController popToViewController:[self.navController.viewControllers objectAtIndex:0] animated:YES];
+         //         [self.navController pushViewController:[self.navController.viewControllers objectAtIndex:1] animated:YES];
+         //         [self.navController popToViewController:[self.navController.viewControllers objectAtIndex:0] animated:YES];
      }];
+}
+
+- (void)loadInfoFromSearch
+{
+    NSLog(@"Scan from Search : %@", self.imageURL);
+    // Load albuminfo
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+    [self.imageView setImageWithURL:[NSURL URLWithString:self.imageURL] placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
+    
+    NSString* url = [NSString stringWithFormat:@"%@%@%@%@%@%@%@",LASTFMALBUMINFOURL,LASTFMKEY,ARTIST,self.artistName,ALBUM,self.albumName,RETURNTYPE];
+    NSString *urlConverted = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    //    NSLog(@"%@",urlConverted);
+    NSURLRequest *request   = [NSURLRequest requestWithURL:[NSURL URLWithString:urlConverted]];
+    NSURLConnection *conn   = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+}
+
+- (void)loadInfoFromScan
+{
+    NSLog(@"Scan from Scan : %@", self.imageURL);
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    // Load Image from URL
+    [self.imageView setImageWithURL:[NSURL URLWithString:self.imageURL] placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
+}
+
+- (NSData*) resizeImageAndTransformToNsdata:(UIImage*)image
+{
+    float actualHeight = image.size.height;
+    float actualWidth = image.size.width;
+    float imgRatio = actualWidth/actualHeight;
+    float maxRatio = 320.0/480.0;
+    
+    if(imgRatio!=maxRatio)
+    {
+        if(imgRatio < maxRatio)
+        {
+            imgRatio = 480.0 / actualHeight;
+            actualWidth = imgRatio * actualWidth;
+            actualHeight = 480.0;
+        }
+        else
+        {
+            imgRatio = 320.0 / actualWidth;
+            actualHeight = imgRatio * actualHeight;
+            actualWidth = 320.0;
+        }
+    }
+    CGRect rect = CGRectMake(0.0, 0.0, actualWidth, actualHeight);
+    UIGraphicsBeginImageContext(rect.size);
+    [image drawInRect:rect];
+    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    NSData *imageData = UIImagePNGRepresentation(img);
+    return  imageData;
+//    CGSize newSize = CGSizeMake(60, 60);
+//    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+//    NSData *imageData = UIImagePNGRepresentation(image);
+//    return imageData;
 }
 
 

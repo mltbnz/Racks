@@ -27,8 +27,9 @@
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
-    if (self) {
-        
+    if (self)
+    {
+        artistSelectArray = self.jsonArray;
     }
     return self;
 }
@@ -41,18 +42,6 @@
     self.searchBar.showsScopeBar = NO;
     self.searchBar.showsCancelButton = YES;
 
-//    int sec = 1000;
-//    wait(&sec);
-    
-//    self.tableView.contentOffset = CGPointMake(0.0, self.searchBar.frame.size.height);
-    
-    
-    // testArray = [[NSMutableArray alloc] initWithObjects:@"Malte", nil];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -68,7 +57,6 @@
                      completion:^(BOOL finished)
                     {
                         [self.searchBar becomeFirstResponder];
-//                        NSLog(@"Done!");
                     }];
 }
 
@@ -80,6 +68,11 @@
 
 #pragma mark - Table view data source
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 60.0;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
@@ -89,12 +82,14 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    if ([artistSelectArray count] != 0) {
+//    if ([artistSelectArray count] != 0) {
         return [artistSelectArray count];
-    } else {
-        return 1;
-        [self.navigationController popToRootViewControllerAnimated:NO];
-    }
+//    } else {
+////        [self.navigationController popToRootViewControllerAnimated:NO];
+//        UIAlertView *errorView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"The Data could not be fetched." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+//        [errorView show];
+//        return 1;
+//    }
     
 }
 
@@ -157,7 +152,6 @@
     }
     [self.searchBar resignFirstResponder];
     [self.tableView reloadData];
-    
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar
@@ -167,7 +161,7 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-
+    
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
@@ -191,7 +185,6 @@
     // Furthermore, this method is called each time there is a redirect so reinitializing it
     // also serves to clear it
     totalData = [[NSMutableData alloc] init];
-    json = [[NSMutableArray alloc] init];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
@@ -210,9 +203,7 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     // The request is complete and data has been received
-    // You can parse the stuff in your instance variable now
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
+    // You can parse the stuff in your instance variable now    
     NSError* error;
     jsonDict = [NSJSONSerialization JSONObjectWithData:totalData options:0 error:&error];   
     
@@ -224,6 +215,7 @@
     {
         artistSelectArray = [[[[jsonDict objectForKey:@"results"] objectForKey:@"artistmatches"] objectForKey:@"artist"] valueForKey:@"name"];
     }
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [self.tableView reloadData];
 }
 
@@ -251,7 +243,7 @@
 
 # pragma  mark - Functions
 
-
+////
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -262,41 +254,11 @@
 {
     NSString *theURL        = [NSString stringWithFormat:@"%@%@%@%@",LASTFMSEARCHARTISTURL,searchString,LASTFMKEY,RETURNTYPE];
     NSString *urlConverted  = [theURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSLog(@"%@", urlConverted);
     return urlConverted;
 }
 
-/*
-- (NSURL*) createAutocompleteUrl:(NSString*) searchString
-{
-    //
-    NSURL* url;
-    NSString* theUrl = [NSString stringWithFormat:@"%@%@%@%@%@%@%@",ROVIURL,@"apikey=",AUTOCOMPLETEKEY,@"&sig=",AUTOCOMPLETESECRET,@"entitytype=artist&query=",searchString];
-    NSString *urlConverted  = [theUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    url = [NSURL URLWithString:urlConverted];
-    NSLog(@"%@", url);
-    return url;
-}
-
-
-- (NSMutableArray*) fetchedData:(NSData*) responseData
-{
-    NSError* error;
-    NSMutableArray* fetchedArray;
-    
-    NSMutableDictionary* json = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:&error];
-    if (!json)
-    {
-        NSLog(@"Error parsing JSON: %@", error);
-    }
-    else
-    {
-        [fetchedArray addObject:[json objectForKey:@"name"]];
-        // [self.tableView reloadData];
-    }
-    return fetchedArray;
-}
-*/
-
+////
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"artistDetailSegue"])

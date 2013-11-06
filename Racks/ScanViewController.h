@@ -7,12 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZBarSDK.h"
 
-@interface ScanViewController : UITableViewController<UITableViewDelegate, UITableViewDataSource>
+@interface ScanViewController : UIViewController<ZBarReaderDelegate>
+{
+    IBOutlet UIButton *scanButton;
+}
 
-//@property (weak, nonatomic) IBOutlet UINavigationBar *navBar;
-//@property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
+@property (nonatomic, retain) IBOutlet UIButton *scanButton;
 
-//- (IBAction) backButtonAction:(id)sender;
+-(IBAction) scanButtonPress:sender;
 
 @end
