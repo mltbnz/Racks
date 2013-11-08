@@ -24,13 +24,19 @@
 {
     NSMutableData* jsonData;
     NSMutableDictionary* jsonDict;
+    NSString *albumId;
     NSString *albumSummary;
-    NSString *albumRelease;
-    NSString *albumLabel;
+    NSMutableArray *tracklist;
 }
 
-@synthesize fetchedResultsController;
+//@synthesize albumName = _albumName;
+//@synthesize artistName = _artistName;
 
+
+-(id) init
+{
+    return [self initWithAlbumnameAndURL:nil AndArtistName:nil AndLabelName:nil AndImageUrl:nil AndIsScan:nil];
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -42,22 +48,42 @@
     return self;
 }
 
-- (id)initWithAlbumname:(NSString*)passAlbumName AndArtistName:(NSString*)passArtistName AndReleaseDate:(NSString*)passReleaseDate AndLabelName:(NSString*)passLabelName AndImageAdress:(NSString*)passImageUrl
+- (id)initWithAlbumname:(NSString*)passAlbumName AndArtistName:(NSString*)passArtistName AndReleaseDate:(NSString*)passReleaseDate AndLabelName:(NSString*)passLabelName AndImageData:(NSData*)passImageData AndIsScan:(BOOL*)passIsScan
 {
-    if (self = [super init])
+    self = [super init];
+    if (self)
     {
-        passAlbumName = albumName;
-        passArtistName = artistName;
-        passReleaseDate = releaseDate;
-        passLabelName = labelName;
-        passImageUrl = imageUrl;
+        //        passAlbumName = _albumName;
+        //        passArtistName = _artistName;
+        //        passReleaseDate = releaseDate;
+        //        passLabelName = labelName;
+        //        passImageData = imageData;
+        //        passIsScan = isScan;
+    }
+    return self;
+}
+
+- (id)initWithAlbumnameAndURL:(NSString*)passAlbumName AndArtistName:(NSString*)passArtistName AndLabelName:(NSString*)passLabelName AndImageUrl:(NSString*)passImageUrl AndIsScan:(BOOL*)passIsScan
+{
+    self = [super init];
+    if (self)
+    {
+        //        NSLog(@"1.");
+        //        passAlbumName = _albumName;
+        //        passArtistName =_artistName;
+        //        labelName = passLabelName;
+        //        imageUrl = passImageUrl;
+        //        isScan = passIsScan;
     }
     return self;
 }
 
 - (void)viewDidLoad
 {
+    NSLog(@"2.");
     [super viewDidLoad];
+    
+    //    NSLog(@"init Params: %@, %@, %@, %s", self.albumName, self.artistName, imageUrl, isScan);
     
     // NavBar add Button Function
     UIImage *buttonImg = [UIImage imageNamed:@"button.png"];
@@ -70,25 +96,24 @@
     
     //    self.navigationItem.leftBarButtonItem = backButton;
     self.navBar.topItem.leftBarButtonItem = customBarItem;
-    self.navBar.topItem.title = [NSString stringWithFormat:@"%@", self.albumName];
+    self.navBar.topItem.title = [NSString stringWithFormat:@"%@", _albumName];
     
     // check if image was passed by View
-    if (self.albumImage != nil)
-    {
-        self.imageView.image = self.albumImage;
-        [self.imageView sizeToFit];
-    }
-    else
-    {
-        UIImage *placeholderImage = [UIImage imageNamed:@"placeholder.jpg"];
-        self.imageView.image = placeholderImage;
-        [self.imageView sizeToFit];
-    }
+    //    if (albumImage != nil)
+    //    {
+    //        self.imageView.image = self.albumImage;
+    //        [self.imageView sizeToFit];
+    //    }
+    //    else
+    //    {
+    //        UIImage *placeholderImage = [UIImage imageNamed:@"placeholder.jpg"];
+    //        self.imageView.image = placeholderImage;
+    //        [self.imageView sizeToFit];
+    //    }
     
-    // Set TextField properties 
+    // Set TextField properties
     if (self.artistName)
     {
-//        NSLog(@"%@", self.artistName);
         self.artistTextField.text = self.artistName;
     }
     else
@@ -98,25 +123,44 @@
     
     if (self.albumName)
     {
-//        NSLog(@"%@", self.albumName);
         self.albumTextField.text = self.albumName;
     }
     else
     {
         self.albumTextField.text = @"Malte";
     }
-    
-    
     //
     // Decide if it is a scan or a search via BOOL isScan
     //
-    if (!self.isScan)
+    // Handle passed Image Data
+    
+    if (self.isScan)
     {
-        [self loadInfoFromSearch];
+        NSLog(@"IS SCAN");
+//        NSMutableData *helperDict = [[NSMutableData alloc] init];
+//        [helperDict appendData:self.albumImage];
+//        
+//        NSLog(@"helperDict: %@", helperDict);
+//        NSMutableDictionary *jsonDictForPassedData = [[NSMutableDictionary alloc] init];
+//        NSError *jsonError;
+//        jsonDictForPassedData = [NSJSONSerialization JSONObjectWithData:helperDict options:0 error:&jsonError];
+//        NSLog(@"jsonDict: %@", jsonDictForPassedData);
+//        
+//        if ([jsonDictForPassedData count] == 0)
+//        {
+//            NSLog(@"Error parsing JSON: %@", jsonError);
+//        }
+//        else
+//        {
+//            albumId = [[[jsonDictForPassedData objectForKey:@"images"] objectAtIndex:0] valueForKey:@"image"];
+//            NSLog(@"albumID: %@", albumId);
+//        }
+        [self loadInfoFromScan];
     }
     else
     {
-        [self loadInfoFromScan];
+        NSLog(@"IS SEARCH");
+        [self loadInfoFromSearch];
     }
     
     // CoreData
@@ -141,7 +185,6 @@
     // also serves to clear it
     //    NSLog(@"Verbindung steht");
     jsonData = [[NSMutableData alloc] init];
-    
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
@@ -174,27 +217,62 @@
     }
     else
     {
+        NSUInteger stringLength = [self.releaseDate length];
+        
         self.releaseDate = [[jsonDict objectForKey:@"album"] valueForKey:@"releasedate"];
-        if (self.releaseDate.length == 0 || self.releaseDate.length < 7)
+        if (stringLength == 0)
         {
             self.releaseLabel.text = @"No date available";
         }
-        else
+        else if (stringLength < 7)
         {
             // NSLog(@"Content: %@ / Length: %i", self.releaseDate, [self.releaseDate length]);
-            self.releaseDate = [self.releaseDate substringToIndex:[self.releaseDate length] -7];
             self.releaseLabel.text = self.releaseDate;
+        }
+        else
+        {
+            self.releaseLabel.text = [self.releaseDate substringToIndex:stringLength -7];
+        }
+        
+        NSString *trackTest = [[[[[jsonDict objectForKey:@"album"] objectForKey:@"tracks"] objectForKey:@"track"] objectAtIndex:0] valueForKey:@"name"];
+        NSLog(@"Track: %@", trackTest);
+        
+        tracklist = [[[jsonDict objectForKey:@"album"] objectForKey:@"tracks"] objectForKey:@"track"];
+        NSLog(@"Size: %lu", (unsigned long)[tracklist count]);
+        
+        NSString *finalTrackList = @"";
+        //
+        for (int i = 0; i < ((unsigned long)[tracklist count]); i++) {
+//            NSLog(@"%i", i);
+            NSString *track = [[[[[jsonDict objectForKey:@"album"] objectForKey:@"tracks"] objectForKey:@"track"] objectAtIndex:i] valueForKey:@"name"];
+            NSLog(@"Track: %@", track);
+            NSString *stringDuration = [[[[[jsonDict objectForKey:@"album"] objectForKey:@"tracks"] objectForKey:@"track"] objectAtIndex:i] valueForKey:@"duration"];
+            NSLog(@"Track: %@", stringDuration);
+            // Calculate Seconds to Minutes
+            double durationMinutes = floor([stringDuration intValue]/60);
+            double durationSeconds = round([stringDuration intValue] - durationMinutes * 60);
+//            NSString *test;
+            finalTrackList = [finalTrackList stringByAppendingFormat:@"%@ - %i:%i\n", track, (int)durationMinutes, (int)durationSeconds];
+//            N SLog(@"%@", test);
         }
         
         albumSummary = [[[jsonDict objectForKey:@"album"] objectForKey:@"wiki"] valueForKey:@"content"];
         if (albumSummary.length == 0)
         {
-            self.desTextField.text = @"No description available";
+            self.desTextField.text = [NSString stringWithFormat:@"Tracklist: %@\n", finalTrackList];
         }
         else
         {
             self.desTextField.text = albumSummary;
         }
+        
+
+        
+        
+        NSString *imageUrlFromJson = [[[[jsonDict objectForKey:@"album"] objectForKey:@"image"] objectAtIndex:2] objectForKey:@"#text"];
+        NSLog(@"URL: %@", imageUrlFromJson);
+        // WebImage
+        [self.imageView setImageWithURL:[NSURL URLWithString:imageUrlFromJson] placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
     }
     
     
@@ -281,27 +359,35 @@
 
 - (void)loadInfoFromSearch
 {
-    NSLog(@"Scan from Search : %@", self.imageURL);
+    NSLog(@"Scan from Search : %@", self.imageUrl);
     // Load albuminfo
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
-    [self.imageView setImageWithURL:[NSURL URLWithString:self.imageURL] placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
+    [self.imageView setImageWithURL:[NSURL URLWithString:self.imageUrl] placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
     
     NSString* url = [NSString stringWithFormat:@"%@%@%@%@%@%@%@",LASTFMALBUMINFOURL,LASTFMKEY,ARTIST,self.artistName,ALBUM,self.albumName,RETURNTYPE];
     NSString *urlConverted = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
-    //    NSLog(@"%@",urlConverted);
+    NSLog(@"%@",urlConverted);
     NSURLRequest *request   = [NSURLRequest requestWithURL:[NSURL URLWithString:urlConverted]];
     NSURLConnection *conn   = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
 
 - (void)loadInfoFromScan
 {
-    NSLog(@"Scan from Scan : %@", self.imageURL);
+    NSLog(@"Scan from Scan");
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     // Load Image from URL
-    [self.imageView setImageWithURL:[NSURL URLWithString:self.imageURL] placeholderImage:[UIImage imageNamed:@"placeholder.jpg"]];
+    NSString* url = [NSString stringWithFormat:@"%@%@%@%@%@%@%@",LASTFMALBUMINFOURL,LASTFMKEY,ARTIST,self.artistName,ALBUM,self.albumName,RETURNTYPE];
+    NSString *urlConverted = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSLog(@"%@",urlConverted);
+    NSURLRequest *request   = [NSURLRequest requestWithURL:[NSURL URLWithString:urlConverted]];
+    NSURLConnection *conn   = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
+
+/**
+ * Image Resize
+ */
 
 - (NSData*) resizeImageAndTransformToNsdata:(UIImage*)image
 {
@@ -330,12 +416,8 @@
     [image drawInRect:rect];
     UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    NSData *imageData = UIImagePNGRepresentation(img);
-    return  imageData;
-//    CGSize newSize = CGSizeMake(60, 60);
-//    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
-//    NSData *imageData = UIImagePNGRepresentation(image);
-//    return imageData;
+    NSData *imageDataPng = UIImagePNGRepresentation(img);
+    return imageDataPng;
 }
 
 

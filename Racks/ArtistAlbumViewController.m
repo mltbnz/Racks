@@ -23,6 +23,7 @@
     NSMutableArray *imagesArray;
     SDWebImageManager *manager;
     SDImageCache *sharedImageCache;
+    NSString *imageUrlBig;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -250,22 +251,18 @@
 {
     if ([segue.identifier isEqualToString:@"toAlbumSegue"])
     {
-        AlbumViewController *destViewController = [segue destinationViewController];
-        
+        // Get index from selection
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        
+        // Albumname
         NSString *destinationTitle = [albumNames objectAtIndex:indexPath.row];
-        destViewController.albumName = destinationTitle;
+//        NSLog(@"Albumname: %@ / Artist: %@", destinationTitle, self.artistName);
+        // Url
+        AlbumViewController *destViewController = [segue destinationViewController];
         destViewController.artistName = self.artistName;
+        destViewController.albumName = destinationTitle;
         
-        // UITableViewCell *selectedCell = [self.tableView cellForRowAtIndexPath:indexPath];
-        // UIImage *destImage = selectedCell.imageView.image;
-        // destViewController.albumImage = destImage;
-        
-//        NSString *imageUrlBig = [[[[[[jsonDict objectForKey:@"topalbums"] objectForKey:@"album"] objectAtIndexPath:indexPath] objectForKey:@"image"] objectAtIndex:2] objectForKey:@"#text"];
-        NSString *imageUrlBig = [[[[albumImages objectAtIndex:indexPath.row] objectForKey:@"image"] objectAtIndex:2] objectForKey:@"#text"];
-        destViewController.imageURL = imageUrlBig;
-        
+        imageUrlBig = [[[[[[jsonDict objectForKey:@"topalbums"] objectForKey:@"album"] objectAtIndex:indexPath.row] objectForKey:@"image"] objectAtIndex:2] objectForKey:@"#text"];
+        destViewController.imageUrl = imageUrlBig;
         destViewController.isScan = FALSE;
         
         UINavigationController *thisNavController = self.navigationController;

@@ -17,22 +17,23 @@
 
 @interface AlbumViewController : UIViewController<NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 {
-    NSString *albumName;
-    NSString *artistName;
-    NSString *labelName;
-    NSString *releaseDate;
-    NSString *imageUrl;
+//    NSString *albumName;
+//    NSString *artistName;
+//    NSString *labelName;
+//    NSString *releaseDate;
+//    NSString *imageUrl;
+    NSData *imageData;
 }
 
 @property NSString *artistName;
-@property NSString *barcode;
+//@property NSString *barcode;
 @property NSString *albumName;
 @property NSString *releaseDate;
 @property NSString *labelName;
-@property NSString *jsonURL;
-@property NSString *imageURL;
-@property UIImage *albumImage;
-@property BOOL *isScan;
+//@property NSString *jsonURL;
+@property NSString *imageUrl;
+@property NSData *albumImage;
+@property BOOL isScan;
 //
 @property UIViewController *previousView;
 @property UINavigationController *navController;
@@ -52,6 +53,8 @@
 @property (nonatomic, retain) NSArray *fetchedResultsArray;
 //////////
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender;
-- (id)initWithAlbumname:(NSString*)passAlbumName AndArtistName:(NSString*)passArtistName AndReleaseDate:(NSString*)passReleaseDate AndLabelName:(NSString*)passLabelName AndImageAdress:(NSString*)passImageUrl;
+
+- (id)initWithAlbumname:(NSString*)passAlbumName AndArtistName:(NSString*)passArtistName AndReleaseDate:(NSString*)passReleaseDate AndLabelName:(NSString*)passLabelName AndImageData:(NSData*)passImageData AndIsScan:(BOOL*)passIsScan;
+- (id)initWithAlbumnameAndURL:(NSString*)passAlbumName AndArtistName:(NSString*)passArtistName AndLabelName:(NSString*)passLabelName AndImageUrl:(NSString*)passImageUrl AndIsScan:(BOOL*)passIsScan;
 
 @end

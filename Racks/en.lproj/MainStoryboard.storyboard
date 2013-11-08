@@ -41,7 +41,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="record.png" translatesAutoresizingMaskIntoConstraints="NO" id="Qi5-yq-2Md">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="120" id="Nux-ZI-QhV"/>
-                                    <constraint firstAttribute="width" constant="120" id="riF-7K-Esb"/>
+                                    <constraint firstAttribute="width" constant="120" id="p4g-AR-1Q1"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Music" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GWj-Z4-gIe">
@@ -55,8 +55,8 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eFx-2w-aBr">
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="69" id="hUC-Do-f2M"/>
-                                    <constraint firstAttribute="width" constant="74" id="tJ8-DM-dcu"/>
+                                    <constraint firstAttribute="height" constant="110" id="Olh-QE-gtA"/>
+                                    <constraint firstAttribute="width" constant="120" id="dVf-1y-IDc"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal">
@@ -73,10 +73,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="eFx-2w-aBr" firstAttribute="centerX" secondItem="GWj-Z4-gIe" secondAttribute="centerX" type="default" id="6W6-h0-sdI"/>
-                            <constraint firstItem="Qi5-yq-2Md" firstAttribute="centerX" secondItem="eFx-2w-aBr" secondAttribute="centerX" type="default" id="CSb-PN-s7c"/>
-                            <constraint firstItem="eFx-2w-aBr" firstAttribute="top" secondItem="3" secondAttribute="top" constant="159" id="TEj-gt-3FI"/>
-                            <constraint firstItem="eFx-2w-aBr" firstAttribute="centerX" secondItem="3" secondAttribute="centerX" type="default" id="Urd-0G-pEF"/>
+                            <constraint firstItem="eFx-2w-aBr" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="101" id="1AO-TT-5Dg"/>
+                            <constraint firstItem="eFx-2w-aBr" firstAttribute="top" secondItem="3" secondAttribute="top" constant="138" id="Erd-pT-0yw"/>
+                            <constraint firstItem="Qi5-yq-2Md" firstAttribute="centerX" secondItem="GWj-Z4-gIe" secondAttribute="centerX" type="default" id="Ykb-F7-Lkh"/>
+                            <constraint firstItem="GWj-Z4-gIe" firstAttribute="centerX" secondItem="3" secondAttribute="centerX" type="default" id="dat-6g-sCa"/>
                             <constraint firstItem="GWj-Z4-gIe" firstAttribute="top" secondItem="Qi5-yq-2Md" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="iXn-4s-q66"/>
                             <constraint firstItem="Qi5-yq-2Md" firstAttribute="top" secondItem="3" secondAttribute="top" constant="134" id="y19-n9-8LY"/>
                         </constraints>
@@ -262,7 +262,7 @@
                                     <constraint firstAttribute="height" constant="134" id="4jH-EZ-3rn"/>
                                 </constraints>
                                 <color key="textColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="italicSystem" pointSize="16"/>
+                                <fontDescription key="fontDescription" type="italicSystem" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OO4-cp-ene">
@@ -595,15 +595,65 @@
     <resources>
         <image name="record.png" width="532" height="532"/>
     </resources>
+    <classes>
+        <class className="AlbumViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AlbumViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="albumTextField" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="artistTextField" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="backButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="desTextField" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="labelLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="navBar" candidateClass="UINavigationBar"/>
+                <relationship kind="outlet" name="releaseLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="saveButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="ArtistAlbumViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ArtistAlbumViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="MusicViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MusicViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="scanButtonAction:"/>
+                <relationship kind="action" name="searchButtonAction:"/>
+                <relationship kind="outlet" name="musicTable" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="scanMusicButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
+                <relationship kind="outlet" name="searchButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="SearchMusicViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SearchMusicViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="ViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="musicIcon" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="musicLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Owd-Q3-xj3"/>
         <segue reference="2e4-4b-fMF"/>
-        <segue reference="v6K-VO-3Uw"/>
+        <segue reference="Owd-Q3-xj3"/>
         <segue reference="Yc3-Wm-wYq"/>
+        <segue reference="v6K-VO-3Uw"/>
     </inferredMetricsTieBreakers>
 </document>

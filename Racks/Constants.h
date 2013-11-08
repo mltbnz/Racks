@@ -12,6 +12,7 @@
 // MUSICBRAINZ
 #define MUSICBRAINZURL @"http://musicbrainz.org/ws/2/release?query=barcode:"
 #define MUSICBRAINZFORMAT @"&fmt=json"
+#define MUSICBRAINZCOVERURL @"http://coverartarchive.org/release/"
 // DISCOGS
 #define DISCOGSURL @"http://api.discogs.com/database/search?&q="
 #define DISCOGSRELEASE_TITLE @"&release_title="

@@ -20,9 +20,13 @@
     NSString *artistName;
     NSString *labelName;
     NSString *helperUrl;
+    NSString *albumId;
+    NSString *imageId;
     
+    NSData *helperData;
     NSMutableData* jsonData;
     NSMutableDictionary* jsonDict;
+    AppDelegate* appDelegate;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -40,7 +44,7 @@
     //
     didAppear = FALSE;
     // Core Data Stuff
-    AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+    appDelegate = [UIApplication sharedApplication].delegate;
     // Fetching Records and saving it in "fetchedRecordsArray" object
     self.fetchedRecordsArray = [appDelegate getAllRecordsFromDB];
     
@@ -57,10 +61,17 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    if (didAppear) {
+    if (didAppear)
+    {
         [self.tableView reloadData];
         didAppear = TRUE;
     }
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    self.fetchedRecordsArray = [appDelegate getAllRecordsFromDB];
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -169,7 +180,7 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {    
-    NSError* error;
+    NSError* error = nil;
     jsonDict = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
 
     if ([jsonDict count] == 0)
@@ -179,24 +190,48 @@
     else
     {
         albumName = [[[jsonDict objectForKey:@"releases"] objectAtIndex:0] valueForKey:@"title"];
-//        NSLog(@"%@", albumName);
         artistName = [[[[[[jsonDict objectForKey:@"releases"] objectAtIndex:0] objectForKey:@"artist-credit"] objectAtIndex:0] objectForKey:@"artist"] valueForKey:@"name"];
         albumRelease = 	[[[jsonDict objectForKey:@"releases"] objectAtIndex:0] valueForKey:@"date"];
         labelName = [[[[[[jsonDict objectForKey:@"releases"] objectAtIndex:0] objectForKey:@"label-info"] objectAtIndex:0] objectForKey:@"label"] valueForKey:@"name"];
+        albumId = [[[jsonDict objectForKey:@"releases"] objectAtIndex:0] valueForKey:@"id"];
     }
-//    NSLog(@"PARAMETER: %@%@%@%@",albumName,artistName,albumRelease,labelName);
+    NSLog(@"PARAMETER: %@%@%@%@",albumName,artistName,albumRelease,labelName);
+//    NSLog(@"%@",urlConverted);
+//    NSURLResponse * response = nil;
+    
+    NSString *resourceUrl = [NSString stringWithFormat:@"%@%@", MUSICBRAINZCOVERURL, albumId];
+    NSString *urlConverted = [resourceUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *url = [NSURL URLWithString:urlConverted];
 
-    NSString *resourceUrl = [NSString stringWithFormat:@"%@%@%@%@", DISCOGSURL,artistName,DISCOGSRELEASE_TITLE,albumName];
-    NSLog(@"Helper1: %@", resourceUrl);
-    JsonHelper *getResourceUrl = [[JsonHelper alloc] initWithParam:@"resource_url" AndUrl:resourceUrl];
+//    NSURLRequest *request   = [NSURLRequest requestWithURL:[NSURL URLWithString:urlConverted]];
+//    NSLog(@"Helper1: %@", resourceUrl);
     
-    NSString *urlFromGetResourceHelper = getResourceUrl.returnUrl;
-    NSLog(@"Helper2: %@", urlFromGetResourceHelper);
-    JsonHelper *getImageUrl = [[JsonHelper alloc] initWithParam:@"uri150" AndUrl:urlFromGetResourceHelper];
-    helperUrl = getImageUrl.returnUrl;
+//    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+//    
+//    dispatch_sync(queue, ^{
+//        NSData *data = [NSData dataWithContentsOfURL:url];
+//        dispatch_sync(dispatch_get_main_queue(), ^{
+//            helperData = data;
+//            [self performSegueWithIdentifier:@"toAlbumDetailView" sender:self];
+//        });
+//    });
+
+//    NSData *jsonSyncData = [[NSData alloc] init];
+//    jsonSyncData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+   
     
+//    if (helperData != nil)
+//    {
+//        helperData = jsonSyncData;
+//    }
+//    else
+//    {
+//        UIAlertView *errorView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"The Download could not be completed - Please make sure you are either connected to 3G or Wi-Fi." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+////        NSLog(@"ERROR: %@", error);
+//        [errorView show];
+//    }
     [self performSegueWithIdentifier:@"toAlbumDetailView" sender:self];
-
+    
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
@@ -214,32 +249,37 @@
 
 #pragma mark - Fetched results controller
 
-//- (NSFetchedResultsController *)fetchedResultsController
-//{
-//    // Set up the fetched results controller if needed.
-//    if (fetchedResultsController == nil)
-//    {
-//        // Create the fetch request for the entity.
-//        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-//        // Edit the entity name as appropriate.
-//        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Record" inManagedObjectContext:managedObjectContext];
-//        [fetchRequest setEntity:entity];
 //
-//        // Edit the sort key as appropriate.
-//        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
-//        NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+    [self.tableView beginUpdates];
+}
+
 //
-//        [fetchRequest setSortDescriptors:sortDescriptors];
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
+           atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
+{
+    
+    switch(type) {
+        case NSFetchedResultsChangeInsert:
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex]
+                          withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex]
+                          withRowAnimation:UITableViewRowAnimationFade];
+            break;
+    }
+}
+
 //
-//        // Edit the section name key path and cache name if appropriate.
-//        // nil for section name key path means "no sections".
-//        NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:managedObjectContext sectionNameKeyPath:nil cacheName:@"Root"];
-//        aFetchedResultsController.delegate = self;
-//        self.fetchedResultsController = aFetchedResultsController;
-//    }
-//
-//	return fetchedResultsController;
-//}
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    [self.tableView endUpdates];
+}
+
+
+
 
 # pragma mark - NavigationController
 
@@ -292,13 +332,14 @@
     }
     else if ([[segue identifier] isEqualToString:@"toAlbumDetailView"])
     {
-        AlbumViewController *destViewController = [[AlbumViewController alloc] init];
-        destViewController = [segue destinationViewController];
+        AlbumViewController *destViewController = [segue destinationViewController];
         destViewController.albumName = albumName;
         destViewController.artistName = artistName;
         destViewController.releaseDate = albumRelease;
         destViewController.labelName = labelName;
-        destViewController.imageURL = helperUrl;
+        destViewController.albumImage = helperData;
+        destViewController.isScan = TRUE;
+//        destViewController.imageURL = helperUrl;
 //        [destViewController setTitle:albumName];
         didAppear = FALSE;
     }
@@ -316,17 +357,22 @@
         NSString *upcString = symbol.data;
 //        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Scanned UPC" message:[NSString stringWithFormat:@"The UPC read was: %@", upcString] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
 //        [alert show];
-        NSLog(@"%@",upcString);
+//        NSLog(@"%@",upcString);
         
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         NSString* url = [NSString stringWithFormat:@"%@%@%@", MUSICBRAINZURL,upcString,MUSICBRAINZFORMAT];
         NSString *urlConverted = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         
         //    NSLog(@"%@",urlConverted);
+        NSURLResponse * response = nil;
+        NSError *error = nil;
         NSURLRequest *request   = [NSURLRequest requestWithURL:[NSURL URLWithString:urlConverted]];
         NSURLConnection *conn   = [[NSURLConnection alloc] initWithRequest:request delegate:self];
         
-        [self dismissViewControllerAnimated:YES completion:nil];
+//        NSURLConnection *conn = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+
+        
+        [self dismissViewControllerAnimated:NO completion:nil];
     }
 }
 
