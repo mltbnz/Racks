@@ -6,7 +6,7 @@
 	You can scan barcodes or search Artists by name or Albums via the Discogs API.
 
 #LINK
-	Discogs API(https://www.discogs.com/developers/)
+	(https://www.discogs.com/developers/)
 
 #MIT License
 
