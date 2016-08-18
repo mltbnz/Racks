@@ -1,14 +1,12 @@
 # Racks
 
-#ABOUT
-	This is a semester work I did for an iOS Course.
-	The app is designed to be a central archive for your record collection.
-	You can scan barcodes or search Artists by name or Albums via the Discogs API.
+### ABOUT
 
-#LINK
-	(https://www.discogs.com/developers/)
+This is a semester work I did for an iOS Course.
+The app is designed to be a central archive for your record collection.
+You can scan barcodes or search Artists by name or Albums via the [Discogs API](https://www.discogs.com/developers/).
 
-#MIT License
+### MIT License
 
 	Copyright (c) 2015 Fancy Pixel. All rights reserved.
 
